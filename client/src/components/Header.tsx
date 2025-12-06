@@ -10,6 +10,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Menu, Phone, TrendingUp, Shield, Heart, X } from "lucide-react";
+import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 const services = [
   {
@@ -56,10 +57,11 @@ export default function Header({ onContactClick }: HeaderProps) {
             className="flex items-center gap-2"
             data-testid="link-home"
           >
-            <div className="flex items-center justify-center w-9 h-9 rounded-md bg-primary">
-              <TrendingUp className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-serif font-bold text-xl">WealthWise</span>
+            <img
+              src={logoImage}
+              alt="Team Finance Logo"
+              className="h-12 w-auto"
+            />
           </a>
 
           <NavigationMenu className="hidden lg:flex">
@@ -171,9 +173,11 @@ export default function Header({ onContactClick }: HeaderProps) {
             <SheetContent side="right" className="w-full sm:w-80">
               <div className="flex flex-col gap-6 mt-6">
                 <div className="flex items-center justify-between">
-                  <span className="font-serif font-bold text-xl">
-                    WealthWise
-                  </span>
+                  <img
+                    src={logoImage}
+                    alt="Team Finance Logo"
+                    className="h-10 w-auto"
+                  />
                   <Button
                     variant="ghost"
                     size="icon"

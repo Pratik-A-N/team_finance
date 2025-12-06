@@ -1,8 +1,9 @@
-import { TrendingUp, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { SiLinkedin, SiX, SiYoutube, SiFacebook } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 const services = [
   { name: "Mutual Funds", href: "#mutual-funds" },
@@ -53,14 +54,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
             <a href="#" className="flex items-center gap-2 mb-4">
-              <div className="flex items-center justify-center w-9 h-9 rounded-md bg-primary">
-                <TrendingUp className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="font-serif font-bold text-xl">WealthWise</span>
+              <img
+                src={logoImage}
+                alt="Team Finance Logo"
+                className="h-14 w-auto"
+              />
             </a>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Your trusted partner for personalized financial advice. Helping
-              Indian families build wealth and secure their future since 2009.
+              Growing Your Future. Your trusted partner for personalized financial
+              advice. Helping Indian families build wealth and secure their future.
             </p>
 
             <div className="space-y-3 mb-6">
@@ -77,11 +79,11 @@ export default function Footer() {
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-muted-foreground" />
                 <a
-                  href="mailto:hello@wealthwise.in"
+                  href="mailto:hello@teamfinance.in"
                   className="hover:text-primary"
                   data-testid="footer-email"
                 >
-                  hello@wealthwise.in
+                  hello@teamfinance.in
                 </a>
               </div>
               <div className="flex items-start gap-3 text-sm">
@@ -194,7 +196,7 @@ export default function Footer() {
         <div className="border-t mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between gap-4">
             <p className="text-xs text-muted-foreground">
-              © 2024 WealthWise Financial Services. All rights reserved.
+              © 2024 Team Finance. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground max-w-2xl">
               SEBI Registration No: INA000012345 | IRDAI License No: 123456789.

@@ -15,7 +15,7 @@ const testimonials = [
     profession: "Business Owner",
     image: testimonial1,
     rating: 5,
-    quote: "WealthWise helped me plan my retirement and secure my children's education. Their personalized approach and transparent fees made all the difference.",
+    quote: "Team Finance helped me plan my retirement and secure my children's education. Their personalized approach and transparent fees made all the difference.",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const testimonials = [
     profession: "Doctor",
     image: testimonial3,
     rating: 5,
-    quote: "Getting the right term and health insurance was crucial for my family. WealthWise compared multiple options and found the perfect coverage for us.",
+    quote: "Getting the right term and health insurance was crucial for my family. Team Finance compared multiple options and found the perfect coverage for us.",
   },
 ];
 
@@ -48,7 +48,7 @@ export default function Testimonials() {
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
               Don't just take our word for it. Here's what our clients have to say
-              about their experience with WealthWise.
+              about their experience with Team Finance.
             </p>
             <div className="relative rounded-xl overflow-hidden">
               <img
@@ -60,7 +60,7 @@ export default function Testimonials() {
               <div className="absolute bottom-4 left-4 right-4 text-white">
                 <p className="text-lg font-medium">Join 10,000+ families</p>
                 <p className="text-white/80 text-sm">
-                  who trust WealthWise for their financial planning
+                  who trust Team Finance for their financial planning
                 </p>
               </div>
             </div>

@@ -40,7 +40,7 @@ export default function WhyChooseUs() {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">
-            Why Choose WealthWise?
+            Why Choose Team Finance?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             We're more than just financial advisors. We're your partners in building

@@ -41,13 +41,17 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
             ))}
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight font-serif">
-            Secure Your Family's Financial Future
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight font-serif">
+            Growing Your Future
           </h1>
+          
+          <p className="text-2xl md:text-3xl text-secondary font-semibold mb-6">
+            Personalized Financial Advisory
+          </p>
 
           <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-            Get personalized financial advice from certified experts. We help you navigate
-            mutual funds, insurance, and wealth planning with transparency and trust.
+            Get expert guidance on mutual funds, insurance, and wealth planning.
+            Team Finance helps Indian families build wealth with transparency and trust.
           </p>
 
           <div className="flex flex-wrap gap-4">
