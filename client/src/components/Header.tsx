@@ -129,6 +129,19 @@ export default function Header({ onContactClick }: HeaderProps) {
               <NavigationMenuItem>
                 <NavigationMenuLink
                   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                  href="#calculator"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection("#calculator");
+                  }}
+                  data-testid="nav-calculator"
+                >
+                  Calculator
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                   href="#faq"
                   onClick={(e) => {
                     e.preventDefault();
@@ -227,6 +240,17 @@ export default function Header({ onContactClick }: HeaderProps) {
                     data-testid="mobile-nav-testimonials"
                   >
                     Testimonials
+                  </a>
+                  <a
+                    href="#calculator"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection("#calculator");
+                    }}
+                    className="rounded-md p-3 font-medium hover-elevate"
+                    data-testid="mobile-nav-calculator"
+                  >
+                    Calculator
                   </a>
                   <a
                     href="#faq"

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { UserCheck, LineChart, Clock, Headphones, FileCheck, Award } from "lucide-react";
+import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 const reasons = [
   {
@@ -39,6 +40,13 @@ export default function WhyChooseUs() {
     <section id="about" className="py-16 md:py-24 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img
+              src={logoImage}
+              alt="Team Finance"
+              className="h-12 w-auto opacity-90"
+            />
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">
             Why Choose Team Finance?
           </h2>

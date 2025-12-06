@@ -9,7 +9,7 @@ const services = [
   { name: "Mutual Funds", href: "#mutual-funds" },
   { name: "Term Insurance", href: "#term-insurance" },
   { name: "Health Insurance", href: "#health-insurance" },
-  { name: "Tax Planning", href: "#" },
+  { name: "Financial Calculator", href: "#calculator" },
   { name: "Retirement Planning", href: "#" },
 ];
 

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Phone, MessageCircle, Calendar } from "lucide-react";
+import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 interface ContactCTAProps {
   onScheduleCall?: () => void;
@@ -10,6 +11,13 @@ export default function ContactCTA({ onScheduleCall }: ContactCTAProps) {
     <section className="py-16 md:py-24 bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center max-w-2xl mx-auto">
+          <div className="flex justify-center mb-6">
+            <img
+              src={logoImage}
+              alt="Team Finance"
+              className="h-14 w-auto brightness-0 invert opacity-90"
+            />
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-serif">
             Ready to Secure Your Financial Future?
           </h2>

@@ -5,6 +5,7 @@ import TrustBar from "@/components/TrustBar";
 import ServicesSection from "@/components/ServicesSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import HowItWorks from "@/components/HowItWorks";
+import FinancialCalculator from "@/components/FinancialCalculator";
 import Testimonials from "@/components/Testimonials";
 import FAQSection from "@/components/FAQSection";
 import ContactCTA from "@/components/ContactCTA";
@@ -46,6 +47,7 @@ export default function Home() {
         />
         <WhyChooseUs />
         <HowItWorks />
+        <FinancialCalculator />
         <Testimonials />
         <FAQSection />
         <ContactCTA onScheduleCall={() => setConsultationOpen(true)} />

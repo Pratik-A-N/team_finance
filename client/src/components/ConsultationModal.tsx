@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 interface ConsultationModalProps {
   open: boolean;
@@ -90,6 +91,13 @@ export default function ConsultationModal({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
+          <div className="flex items-center gap-3 mb-2">
+            <img
+              src={logoImage}
+              alt="Team Finance"
+              className="h-10 w-auto"
+            />
+          </div>
           <DialogTitle className="font-serif">
             {step === 3 ? "Thank You!" : "Schedule Free Consultation"}
           </DialogTitle>
