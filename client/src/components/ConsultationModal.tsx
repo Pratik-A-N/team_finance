@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
+import logoImage from "@assets/WhatsApp_Image_2025-12-07_at_22.42.38_9d0176ad-removebg-previe_1765392288043.png";
 
 interface ConsultationModalProps {
   open: boolean;
