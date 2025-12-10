@@ -3,7 +3,7 @@ import { SiLinkedin, SiX, SiYoutube, SiFacebook } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import logoImage from "@assets/WhatsApp_Image_2025-12-07_at_22.42.38_9d0176ad-removebg-previe_1765392288043.png";
+import logoImage from "@assets/Untitled_design-removebg-preview_1765394605535.png";
 
 const services = [
   { name: "Mutual Funds", href: "#mutual-funds" },

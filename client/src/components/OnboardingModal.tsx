@@ -32,7 +32,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { User } from "@shared/schema";
 import { User as UserIcon, ArrowRight, Loader2 } from "lucide-react";
-import logoImage from "@assets/WhatsApp_Image_2025-12-07_at_22.42.38_9d0176ad-removebg-previe_1765392288043.png";
+import logoImage from "@assets/Untitled_design-removebg-preview_1765394605535.png";
 
 const indianStates = [
   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
