@@ -146,7 +146,7 @@ export default function OnboardingModal({ user, open, onComplete }: OnboardingMo
 
   return (
     <Dialog open={open} onOpenChange={() => {}}>
-      <DialogContent className="sm:max-w-[500px] [&>button]:hidden" onPointerDownOutside={(e) => e.preventDefault()}>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto [&>button]:hidden" onPointerDownOutside={(e) => e.preventDefault()}>
         <DialogHeader className="text-center">
           <div className="flex justify-center mb-4">
             <img src={logoImage} alt="Team Finance" className="h-12 w-auto" />
