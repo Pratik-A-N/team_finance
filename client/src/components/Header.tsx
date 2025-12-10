@@ -56,7 +56,7 @@ export default function Header({ onContactClick }: HeaderProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id.replace("#", ""));
     if (element) {
-      const headerOffset = 80;
+      const headerOffset = 20;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       
