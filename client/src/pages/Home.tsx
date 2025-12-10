@@ -38,16 +38,13 @@ export default function Home() {
         />
         <TrustBar />
         <ServicesSection
-          onServiceClick={(id) => {
-            const element = document.getElementById(id);
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
+          onServiceClick={() => setConsultationOpen(true)}
         />
         <WhyChooseUs />
         <HowItWorks />
-        <FinancialCalculator />
+        <FinancialCalculator 
+          onConsultClick={() => setConsultationOpen(true)}
+        />
         <Testimonials />
         <FAQSection />
         <ContactCTA onScheduleCall={() => setConsultationOpen(true)} />

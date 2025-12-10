@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Shield, Heart, ArrowRight, CheckCircle2 } from "lucide-react";
+import { TrendingUp, Shield, Heart, ArrowRight, CheckCircle2, ExternalLink } from "lucide-react";
+
+const MUTUAL_FUND_INVEST_LINK = "http://p.njw.bz/41983";
 
 const services = [
   {
@@ -91,15 +93,36 @@ export default function ServicesSection({ onServiceClick }: ServicesSectionProps
                     </li>
                   ))}
                 </ul>
-                <Button
-                  variant="outline"
-                  className="w-full gap-2"
-                  onClick={() => onServiceClick?.(service.id)}
-                  data-testid={`button-learn-${service.id}`}
-                >
-                  Learn More
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                {service.id === "mutual-funds" ? (
+                  <div className="flex flex-col gap-3">
+                    <Button
+                      className="w-full gap-2"
+                      onClick={() => window.open(MUTUAL_FUND_INVEST_LINK, "_blank")}
+                      data-testid="button-invest-mutual-funds"
+                    >
+                      Start Investing
+                      <ExternalLink className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full gap-2"
+                      onClick={() => onServiceClick?.(service.id)}
+                      data-testid="button-consult-mutual-funds"
+                    >
+                      Get Free Consultation
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    className="w-full gap-2"
+                    onClick={() => onServiceClick?.(service.id)}
+                    data-testid={`button-consult-${service.id}`}
+                  >
+                    Get Consultation
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}

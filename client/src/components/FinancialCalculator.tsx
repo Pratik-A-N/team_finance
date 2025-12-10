@@ -11,8 +11,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { TrendingUp, Shield, Heart, Calculator, ArrowRight, RefreshCw } from "lucide-react";
+import { TrendingUp, Shield, Heart, Calculator, ArrowRight, RefreshCw, ExternalLink } from "lucide-react";
 import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
+
+const MUTUAL_FUND_INVEST_LINK = "http://p.njw.bz/41983";
 
 interface CalculatorInputs {
   monthlyIncome: number;
@@ -42,7 +44,11 @@ const goalOptions = [
   { value: "wealth-creation", label: "Wealth Creation" },
 ];
 
-export default function FinancialCalculator() {
+interface FinancialCalculatorProps {
+  onConsultClick?: (serviceId: string) => void;
+}
+
+export default function FinancialCalculator({ onConsultClick }: FinancialCalculatorProps) {
   const [inputs, setInputs] = useState<CalculatorInputs>({
     monthlyIncome: 50000,
     currentSavings: 100000,
@@ -347,9 +353,29 @@ export default function FinancialCalculator() {
                         <p className="text-2xl font-bold text-primary mb-1" data-testid="text-mutual-fund-monthly">
                           INR {result.mutualFundMonthly.toLocaleString()}/month
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground mb-3">
                           To reach your goal of {formatCurrency(result.mutualFundTotal + inputs.currentSavings)} in {inputs.tenure} years
                         </p>
+                        <div className="flex gap-2 flex-wrap">
+                          <Button
+                            size="sm"
+                            className="gap-1"
+                            onClick={() => window.open(MUTUAL_FUND_INVEST_LINK, "_blank")}
+                            data-testid="button-result-invest-mutual-funds"
+                          >
+                            Start Investing
+                            <ExternalLink className="w-3 h-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1"
+                            onClick={() => onConsultClick?.("mutual-funds")}
+                            data-testid="button-result-consult-mutual-funds"
+                          >
+                            Get Consultation
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -366,9 +392,18 @@ export default function FinancialCalculator() {
                         <p className="text-2xl font-bold text-secondary mb-1" data-testid="text-term-insurance-monthly">
                           INR {result.termInsurancePremium.toLocaleString()}/month
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground mb-3">
                           Coverage: {formatCurrency(result.termInsuranceCover)} (15x annual income)
                         </p>
+                        <Button
+                          size="sm"
+                          className="gap-1"
+                          onClick={() => onConsultClick?.("term-insurance")}
+                          data-testid="button-result-consult-term-insurance"
+                        >
+                          Get Consultation
+                          <ArrowRight className="w-3 h-3" />
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
@@ -385,9 +420,18 @@ export default function FinancialCalculator() {
                         <p className="text-2xl font-bold text-accent mb-1" data-testid="text-health-insurance-monthly">
                           INR {result.healthInsurancePremium.toLocaleString()}/month
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground mb-3">
                           Coverage: {formatCurrency(result.healthInsuranceCover)} (recommended for age {inputs.age})
                         </p>
+                        <Button
+                          size="sm"
+                          className="gap-1"
+                          onClick={() => onConsultClick?.("health-insurance")}
+                          data-testid="button-result-consult-health-insurance"
+                        >
+                          Get Consultation
+                          <ArrowRight className="w-3 h-3" />
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
