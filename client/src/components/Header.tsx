@@ -172,7 +172,7 @@ export default function Header({ onContactClick }: HeaderProps) {
               data-testid="button-call"
             >
               <Phone className="w-4 h-4" />
-              <span>+91 98765 43210</span>
+              <span>+91 9820320216</span>
             </Button>
             {!isLoading && (
               isAuthenticated ? (
@@ -394,7 +394,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     data-testid="mobile-button-call"
                   >
                     <Phone className="w-4 h-4" />
-                    +91 98765 43210
+                    +91 9820320216
                   </Button>
                   <Button
                     className="w-full"
