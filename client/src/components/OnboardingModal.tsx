@@ -224,7 +224,7 @@ export default function OnboardingModal({ user, open, onComplete }: OnboardingMo
                     <FormItem>
                       <FormLabel>Phone Number *</FormLabel>
                       <FormControl>
-                        <Input placeholder="+91 98765 43210" {...field} data-testid="onboard-input-phone" />
+                        <Input placeholder="+91 9820320216" {...field} data-testid="onboard-input-phone" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
