@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -9,7 +10,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Menu, Phone, TrendingUp, Shield, Heart, X } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Menu, Phone, TrendingUp, Shield, Heart, X, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
 const services = [
@@ -39,6 +49,17 @@ interface HeaderProps {
 
 export default function Header({ onContactClick }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  const getInitials = () => {
+    if (user?.firstName && user?.lastName) {
+      return `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
+    }
+    if (user?.email) {
+      return user.email[0].toUpperCase();
+    }
+    return "U";
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id.replace("#", ""));
@@ -165,6 +186,49 @@ export default function Header({ onContactClick }: HeaderProps) {
               <Phone className="w-4 h-4" />
               <span>+91 98765 43210</span>
             </Button>
+            {!isLoading && (
+              isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-2" data-testid="button-user-menu">
+                      <Avatar className="w-7 h-7">
+                        <AvatarImage src={user?.profileImageUrl || undefined} alt="Profile" />
+                        <AvatarFallback className="text-xs bg-primary text-primary-foreground">
+                          {getInitials()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="max-w-[100px] truncate">
+                        {user?.firstName || user?.email?.split('@')[0] || 'User'}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="flex items-center gap-2" data-testid="link-profile">
+                        <User className="w-4 h-4" />
+                        My Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <a href="/api/logout" className="flex items-center gap-2" data-testid="link-logout">
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </a>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.location.href = '/api/login'}
+                  data-testid="button-login"
+                >
+                  Login
+                </Button>
+              )
+            )}
             <Button
               onClick={onContactClick}
               data-testid="button-get-started"
@@ -265,6 +329,60 @@ export default function Header({ onContactClick }: HeaderProps) {
                   </a>
                 </nav>
                 <div className="flex flex-col gap-3 mt-4">
+                  {!isLoading && (
+                    isAuthenticated ? (
+                      <>
+                        <div className="flex items-center gap-3 p-3 rounded-md bg-muted/50">
+                          <Avatar className="w-10 h-10">
+                            <AvatarImage src={user?.profileImageUrl || undefined} alt="Profile" />
+                            <AvatarFallback className="bg-primary text-primary-foreground">
+                              {getInitials()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate" data-testid="mobile-text-user-name">
+                              {user?.firstName && user?.lastName 
+                                ? `${user.firstName} ${user.lastName}`
+                                : user?.email?.split('@')[0] || 'User'}
+                            </p>
+                            <p className="text-sm text-muted-foreground truncate">
+                              {user?.email || ''}
+                            </p>
+                          </div>
+                        </div>
+                        <Link href="/profile">
+                          <Button
+                            variant="outline"
+                            className="gap-2 w-full"
+                            onClick={() => setMobileOpen(false)}
+                            data-testid="mobile-link-profile"
+                          >
+                            <User className="w-4 h-4" />
+                            My Profile
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="ghost"
+                          className="gap-2 w-full"
+                          onClick={() => window.location.href = '/api/logout'}
+                          data-testid="mobile-link-logout"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          Logout
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        className="gap-2 w-full"
+                        onClick={() => window.location.href = '/api/login'}
+                        data-testid="mobile-button-login"
+                      >
+                        <User className="w-4 h-4" />
+                        Login
+                      </Button>
+                    )
+                  )}
                   <Button
                     variant="outline"
                     className="gap-2 w-full"
