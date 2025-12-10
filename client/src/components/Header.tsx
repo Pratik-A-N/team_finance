@@ -3,14 +3,6 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -85,96 +77,85 @@ export default function Header({ onContactClick }: HeaderProps) {
             />
           </a>
 
-          <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger data-testid="nav-services">
+          <nav className="hidden lg:flex items-center gap-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  className="gap-1 text-sm font-medium"
+                  data-testid="nav-services"
+                >
                   Services
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4">
-                    {services.map((service) => (
-                      <li key={service.title}>
-                        <NavigationMenuLink asChild>
-                          <a
-                            href={service.href}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              scrollToSection(service.href);
-                            }}
-                            className="flex items-start gap-3 rounded-md p-3 hover-elevate active-elevate-2"
-                            data-testid={`nav-${service.title.toLowerCase().replace(" ", "-")}`}
-                          >
-                            <service.icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
-                            <div>
-                              <div className="text-sm font-medium">
-                                {service.title}
-                              </div>
-                              <p className="text-sm text-muted-foreground">
-                                {service.description}
-                              </p>
-                            </div>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                  href="#about"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("#about");
-                  }}
-                  data-testid="nav-about"
-                >
-                  About Us
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                  href="#testimonials"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("#testimonials");
-                  }}
-                  data-testid="nav-testimonials"
-                >
-                  Testimonials
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                  href="#calculator"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("#calculator");
-                  }}
-                  data-testid="nav-calculator"
-                >
-                  Calculator
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover-elevate focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                  href="#faq"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("#faq");
-                  }}
-                  data-testid="nav-faq"
-                >
-                  FAQ
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="ml-1"
+                  >
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-[320px]">
+                {services.map((service) => (
+                  <DropdownMenuItem
+                    key={service.title}
+                    className="flex items-start gap-3 p-3 cursor-pointer"
+                    onClick={() => scrollToSection(service.href)}
+                    data-testid={`nav-${service.title.toLowerCase().replace(" ", "-")}`}
+                  >
+                    <service.icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
+                    <div>
+                      <div className="text-sm font-medium">
+                        {service.title}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {service.description}
+                      </p>
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button
+              variant="ghost"
+              className="text-sm font-medium"
+              onClick={() => scrollToSection("#about")}
+              data-testid="nav-about"
+            >
+              About Us
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm font-medium"
+              onClick={() => scrollToSection("#testimonials")}
+              data-testid="nav-testimonials"
+            >
+              Testimonials
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm font-medium"
+              onClick={() => scrollToSection("#calculator")}
+              data-testid="nav-calculator"
+            >
+              Calculator
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm font-medium"
+              onClick={() => scrollToSection("#faq")}
+              data-testid="nav-faq"
+            >
+              FAQ
+            </Button>
+          </nav>
 
           <div className="hidden lg:flex items-center gap-3">
             <Button
