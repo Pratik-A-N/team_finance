@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
-import { updateUserProfileSchema } from "@shared/schema";
+import { updateUserProfileSchema, insertInvestmentSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
@@ -35,6 +35,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating profile:", error);
       res.status(500).json({ message: "Failed to update profile" });
+    }
+  });
+
+  // Get user investments
+  app.get("/api/investments", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const userInvestments = await storage.getInvestmentsByUserId(userId);
+      res.json(userInvestments);
+    } catch (error) {
+      console.error("Error fetching investments:", error);
+      res.status(500).json({ message: "Failed to fetch investments" });
+    }
+  });
+
+  // Create new investment
+  app.post("/api/investments", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const validatedData = insertInvestmentSchema.parse({
+        ...req.body,
+        userId,
+      });
+      const investment = await storage.createInvestment(validatedData);
+      res.json(investment);
+    } catch (error: any) {
+      console.error("Error creating investment:", error);
+      if (error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid investment data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create investment" });
     }
   });
 

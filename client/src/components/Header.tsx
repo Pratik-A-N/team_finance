@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Menu, Phone, TrendingUp, Shield, Heart, X, User, LogOut } from "lucide-react";
+import { Menu, Phone, TrendingUp, Shield, Heart, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logoImage from "@assets/abhishek_ghayre_this_is_our_orignal_company_logo_we_are_starti_1765044564982.png";
 
@@ -19,19 +19,19 @@ const services = [
     title: "Mutual Funds",
     description: "Build wealth with diversified investment portfolios",
     icon: TrendingUp,
-    href: "#mutual-funds",
+    href: "#services",
   },
   {
     title: "Term Insurance",
     description: "Protect your family's financial future",
     icon: Shield,
-    href: "#term-insurance",
+    href: "#services",
   },
   {
     title: "Health Insurance",
     description: "Comprehensive medical coverage for your loved ones",
     icon: Heart,
-    href: "#health-insurance",
+    href: "#services",
   },
 ];
 
@@ -56,7 +56,14 @@ export default function Header({ onContactClick }: HeaderProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id.replace("#", ""));
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
     }
     setMobileOpen(false);
   };
@@ -184,6 +191,12 @@ export default function Header({ onContactClick }: HeaderProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center gap-2" data-testid="link-dashboard">
+                        <LayoutDashboard className="w-4 h-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/profile" className="flex items-center gap-2" data-testid="link-profile">
                         <User className="w-4 h-4" />
@@ -331,6 +344,17 @@ export default function Header({ onContactClick }: HeaderProps) {
                             </p>
                           </div>
                         </div>
+                        <Link href="/dashboard">
+                          <Button
+                            variant="default"
+                            className="gap-2 w-full"
+                            onClick={() => setMobileOpen(false)}
+                            data-testid="mobile-link-dashboard"
+                          >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Dashboard
+                          </Button>
+                        </Link>
                         <Link href="/profile">
                           <Button
                             variant="outline"

@@ -62,3 +62,23 @@ export const updateUserProfileSchema = createInsertSchema(users).pick({
 }).partial();
 
 export type UpdateUserProfile = z.infer<typeof updateUserProfileSchema>;
+
+// Investments table for tracking user investments
+export const investments = pgTable("investments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  type: varchar("type").notNull(), // 'mutual-funds', 'term-insurance', 'health-insurance'
+  name: varchar("name").notNull(),
+  amount: varchar("amount").notNull(),
+  investedDate: date("invested_date").notNull(),
+  status: varchar("status").default("active"), // 'active', 'matured', 'cancelled'
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertInvestmentSchema = createInsertSchema(investments).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertInvestment = z.infer<typeof insertInvestmentSchema>;
+export type Investment = typeof investments.$inferSelect;

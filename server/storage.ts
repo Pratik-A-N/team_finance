@@ -1,8 +1,11 @@
 import {
   users,
+  investments,
   type User,
   type UpsertUser,
   type UpdateUserProfile,
+  type Investment,
+  type InsertInvestment,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -11,6 +14,8 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
   updateUserProfile(id: string, profile: UpdateUserProfile): Promise<User | undefined>;
+  getInvestmentsByUserId(userId: string): Promise<Investment[]>;
+  createInvestment(investment: InsertInvestment): Promise<Investment>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -44,6 +49,15 @@ export class DatabaseStorage implements IStorage {
       .where(eq(users.id, id))
       .returning();
     return user;
+  }
+
+  async getInvestmentsByUserId(userId: string): Promise<Investment[]> {
+    return db.select().from(investments).where(eq(investments.userId, userId));
+  }
+
+  async createInvestment(investment: InsertInvestment): Promise<Investment> {
+    const [created] = await db.insert(investments).values(investment).returning();
+    return created;
   }
 }
 
