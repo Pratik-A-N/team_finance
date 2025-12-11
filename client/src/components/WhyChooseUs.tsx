@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { UserCheck, LineChart, Clock, Headphones, FileCheck, Award } from "lucide-react";
-import logoImage from "@assets/Untitled_design-removebg-preview_1765394605535.png";
+import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 const reasons = [
   {

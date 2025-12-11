@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import logoImage from "@assets/Untitled_design-removebg-preview_1765394605535.png";
+import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 interface ConsultationModalProps {
   open: boolean;

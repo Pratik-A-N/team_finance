@@ -12,7 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, Phone, TrendingUp, Shield, Heart, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import logoImage from "@assets/Untitled_design-removebg-preview_1765394605535.png";
+import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 const services = [
   {
