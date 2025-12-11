@@ -16,6 +16,8 @@ export interface IStorage {
   updateUserProfile(id: string, profile: UpdateUserProfile): Promise<User | undefined>;
   getInvestmentsByUserId(userId: string): Promise<Investment[]>;
   createInvestment(investment: InsertInvestment): Promise<Investment>;
+  getAllUsers(): Promise<User[]>;
+  getAllInvestments(): Promise<Investment[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -58,6 +60,14 @@ export class DatabaseStorage implements IStorage {
   async createInvestment(investment: InsertInvestment): Promise<Investment> {
     const [created] = await db.insert(investments).values(investment).returning();
     return created;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return db.select().from(users);
+  }
+
+  async getAllInvestments(): Promise<Investment[]> {
+    return db.select().from(investments);
   }
 }
 

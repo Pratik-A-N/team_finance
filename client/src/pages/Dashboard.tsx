@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home } from "lucide-react";
+import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home, Download } from "lucide-react";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
@@ -106,6 +106,26 @@ export default function Dashboard() {
             <p className="text-muted-foreground">
               Track your investments and financial portfolio
             </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => window.open("/api/export/users", "_blank")}
+              data-testid="button-download-users"
+            >
+              <Download className="w-4 h-4" />
+              Download Users
+            </Button>
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => window.open("/api/export/investments", "_blank")}
+              data-testid="button-download-investments"
+            >
+              <Download className="w-4 h-4" />
+              Download Investments
+            </Button>
           </div>
         </div>
 
