@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     question: "Are your services free?",
-    answer: "Our initial consultation is completely free. For mutual fund investments, we charge a small advisory fee. For insurance, we help you compare and choose the best plans at no additional cost to you.",
+    answer: "Our consultation is completely free of cost!!"
   },
   {
     question: "How do you select mutual funds for my portfolio?",
