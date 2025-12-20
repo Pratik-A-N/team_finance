@@ -59,6 +59,7 @@ export default function Dashboard() {
   const { toast } = useToast();
   const [goalAmount, setGoalAmount] = useState("");
   const [goalTimeline, setGoalTimeline] = useState("");
+  const [isEditingGoal, setIsEditingGoal] = useState(false);
 
   const { data: investments = [], isLoading: investmentsLoading } = useQuery<Investment[]>({
     queryKey: ["/api/investments"],
@@ -72,6 +73,9 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setIsEditingGoal(false);
+      setGoalAmount("");
+      setGoalTimeline("");
       toast({
         title: "Goal Updated",
         description: "Your financial goal has been saved successfully.",
@@ -478,14 +482,28 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {user?.financialGoal ? (
+        {user?.financialGoal && !isEditingGoal ? (
           <Card className="mt-6" data-testid="card-goal-progress">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
-                Goal Progress
-              </CardTitle>
-              <CardDescription>Track your journey towards your financial goal</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  Goal Progress
+                </CardTitle>
+                <CardDescription>Track your journey towards your financial goal</CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setGoalAmount(user.financialGoal || "");
+                  setGoalTimeline(user.goalTimeline || "");
+                  setIsEditingGoal(true);
+                }}
+                data-testid="button-edit-goal"
+              >
+                Edit Goal
+              </Button>
             </CardHeader>
             <CardContent>
               {(() => {
@@ -603,12 +621,30 @@ export default function Dashboard() {
           </Card>
         ) : (
           <Card className="mt-6" data-testid="card-set-goal">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-primary" />
-                Set Your Financial Goal
-              </CardTitle>
-              <CardDescription>Define your target to track your progress</CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  {isEditingGoal ? "Edit Your Goal" : "Set Your Financial Goal"}
+                </CardTitle>
+                <CardDescription>
+                  {isEditingGoal ? "Update your financial target" : "Define your target to track your progress"}
+                </CardDescription>
+              </div>
+              {isEditingGoal && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setIsEditingGoal(false);
+                    setGoalAmount("");
+                    setGoalTimeline("");
+                  }}
+                  data-testid="button-cancel-edit"
+                >
+                  Cancel
+                </Button>
+              )}
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
