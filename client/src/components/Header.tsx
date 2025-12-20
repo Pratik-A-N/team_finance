@@ -170,9 +170,12 @@ export default function Header({ onContactClick }: HeaderProps) {
               size="sm"
               className="gap-2"
               data-testid="button-call"
+              asChild
             >
-              <Phone className="w-4 h-4" />
-              <span>+91 9820320216</span>
+              <a href="https://wa.me/919820320216" target="_blank" rel="noopener noreferrer">
+                <Phone className="w-4 h-4" />
+                <span>+91 9820320216</span>
+              </a>
             </Button>
             {!isLoading && (
               isAuthenticated ? (
@@ -392,9 +395,12 @@ export default function Header({ onContactClick }: HeaderProps) {
                     variant="outline"
                     className="gap-2 w-full"
                     data-testid="mobile-button-call"
+                    asChild
                   >
-                    <Phone className="w-4 h-4" />
-                    +91 9820320216
+                    <a href="https://wa.me/919820320216" target="_blank" rel="noopener noreferrer">
+                      <Phone className="w-4 h-4" />
+                      +91 9820320216
+                    </a>
                   </Button>
                   <Button
                     className="w-full"
