@@ -13,9 +13,13 @@ import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import ConsultationModal from "@/components/ConsultationModal";
 import ThemeToggle from "@/components/ThemeToggle";
+import Dashboard from "@/pages/Dashboard";
+import { useAuth } from "@/hooks/useAuth";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
   const [consultationOpen, setConsultationOpen] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth();
 
   const scrollToServices = () => {
     const element = document.getElementById("services");
@@ -23,6 +27,18 @@ export default function Home() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Dashboard />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
