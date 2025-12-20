@@ -88,11 +88,19 @@ export default function Footer() {
               </div>
               <div className="flex items-start gap-3 text-sm">
                 <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
-                <span className="text-muted-foreground">
-                  123 Finance Tower, BKC
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=114+New+India+Industrial+Estate+Mahakali+Caves+Road+Andheri+East+Mumbai+400093"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary"
+                  data-testid="footer-address"
+                >
+                  114, New India Industrial Estate,
                   <br />
-                  Mumbai, Maharashtra 400051
-                </span>
+                  Off, Mahakali Caves Road, Andheri (E)
+                  <br />
+                  Mumbai - 400 093
+                </a>
               </div>
             </div>
 
