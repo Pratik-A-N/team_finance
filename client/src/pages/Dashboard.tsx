@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home, Download } from "lucide-react";
+import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home, Download, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle } from "lucide-react";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
@@ -290,6 +290,151 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+          <Card data-testid="card-user-profile">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="w-5 h-5" />
+                Your Profile
+              </CardTitle>
+              <CardDescription>Your personal and financial details</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Name</p>
+                    <p className="font-medium" data-testid="text-profile-name">
+                      {user?.firstName} {user?.lastName}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Calendar className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Date of Birth</p>
+                    <p className="font-medium" data-testid="text-profile-dob">
+                      {user?.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString("en-IN") : "Not set"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Phone</p>
+                    <p className="font-medium" data-testid="text-profile-phone">
+                      {user?.phone || "Not set"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Location</p>
+                    <p className="font-medium" data-testid="text-profile-location">
+                      {user?.city && user?.state ? `${user.city}, ${user.state}` : "Not set"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Briefcase className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Occupation</p>
+                    <p className="font-medium capitalize" data-testid="text-profile-occupation">
+                      {user?.occupation || "Not set"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <IndianRupee className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Annual Income</p>
+                    <p className="font-medium" data-testid="text-profile-income">
+                      {user?.annualIncome || "Not set"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card data-testid="card-recommended-plans">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-primary" />
+                Recommended Plans
+              </CardTitle>
+              <CardDescription>Personalized recommendations based on your profile</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-4 rounded-md bg-blue-500/10 border border-blue-500/20">
+                  <div className="flex items-start gap-3">
+                    <TrendingUp className="w-5 h-5 text-blue-500 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-blue-600 dark:text-blue-400">Mutual Fund SIP</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Start a monthly SIP of 10-15% of your income for long-term wealth creation.
+                      </p>
+                      <Button
+                        size="sm"
+                        className="mt-3"
+                        onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
+                        data-testid="button-recommended-sip"
+                      >
+                        Start SIP
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-md bg-green-500/10 border border-green-500/20">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-green-500 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-green-600 dark:text-green-400">Term Insurance</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Protect your family with coverage of 10-15x your annual income.
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="mt-3"
+                        onClick={() => window.open("https://wa.me/919820320216?text=Hi, I am interested in Term Insurance", "_blank")}
+                        data-testid="button-recommended-term"
+                      >
+                        Get Quote
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-md bg-rose-500/10 border border-rose-500/20">
+                  <div className="flex items-start gap-3">
+                    <Heart className="w-5 h-5 text-rose-500 mt-0.5" />
+                    <div>
+                      <h4 className="font-medium text-rose-600 dark:text-rose-400">Health Insurance</h4>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Secure your health with a family floater plan covering medical emergencies.
+                      </p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="mt-3"
+                        onClick={() => window.open("https://wa.me/919820320216?text=Hi, I am interested in Health Insurance", "_blank")}
+                        data-testid="button-recommended-health"
+                      >
+                        Get Quote
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {hasInvestments && (

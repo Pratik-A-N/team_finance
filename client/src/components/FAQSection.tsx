@@ -7,7 +7,7 @@ import {
 
 const faqs = [
   {
-    question: "How do I get started with WealthWise?",
+    question: "How do I get started with planning my finance?",
     answer: "Getting started is easy! Simply fill out our consultation form or call us directly. We'll schedule a free 30-minute call to understand your financial goals and create a personalized plan for you.",
   },
   {

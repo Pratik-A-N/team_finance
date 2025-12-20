@@ -30,7 +30,7 @@ export default function HowItWorks() {
             How It Works
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Getting started with WealthWise is simple. Three easy steps to begin
+            Getting started with Team Finance is simple. Three easy steps to begin
             your journey towards financial freedom.
           </p>
         </div>
