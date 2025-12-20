@@ -8,14 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { TrendingUp, Shield, Heart, Plus, Loader2, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, LogOut, Target, Clock } from "lucide-react";
+import { TrendingUp, Shield, Heart, Plus, Loader2, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, Target, Clock } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import ThemeToggle from "@/components/ThemeToggle";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import type { Investment } from "@shared/schema";
-import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 const goalTimelines = [
   "1-3 Years",
@@ -123,27 +123,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex h-16 items-center justify-between gap-4">
-            <Link href="/" className="flex items-center gap-2" data-testid="link-home">
-              <img src={logoImage} alt="Team Finance Logo" className="h-16 w-auto" />
-            </Link>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={() => window.location.href = '/api/logout'}
-                data-testid="button-logout"
-              >
-                <LogOut className="w-4 h-4" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
