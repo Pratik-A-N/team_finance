@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
 import ServicesSection from "@/components/ServicesSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import FounderSection from "@/components/FounderSection";
 import HowItWorks from "@/components/HowItWorks";
 import FinancialCalculator from "@/components/FinancialCalculator";
 import Testimonials from "@/components/Testimonials";
@@ -41,6 +42,7 @@ export default function Home() {
           onServiceClick={() => setConsultationOpen(true)}
         />
         <WhyChooseUs />
+        <FounderSection />
         <HowItWorks />
         <FinancialCalculator 
           onConsultClick={() => setConsultationOpen(true)}
