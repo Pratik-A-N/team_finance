@@ -126,7 +126,7 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex h-16 items-center justify-between gap-4">
             <Link href="/" className="flex items-center gap-2" data-testid="link-home">
-              <img src={logoImage} alt="Team Finance Logo" className="h-12 w-auto" />
+              <img src={logoImage} alt="Team Finance Logo" className="h-16 w-auto" />
             </Link>
             <div className="flex items-center gap-2">
               <ThemeToggle />
@@ -483,7 +483,7 @@ export default function Dashboard() {
         </div>
 
         {user?.financialGoal && !isEditingGoal ? (
-          <Card className="mt-6" data-testid="card-goal-progress">
+          <Card className="mt-6" data-testid="card-goal-progress-inline">
             <CardHeader className="flex flex-row items-center justify-between gap-4">
               <div>
                 <CardTitle className="flex items-center gap-2">
@@ -500,14 +500,14 @@ export default function Dashboard() {
                   setGoalTimeline(user.goalTimeline || "");
                   setIsEditingGoal(true);
                 }}
-                data-testid="button-edit-goal"
+                data-testid="button-edit-goal-inline"
               >
                 Edit Goal
               </Button>
             </CardHeader>
             <CardContent>
               {(() => {
-                const goalAmount = parseFloat(user.financialGoal) * 100000;
+                const goalAmountValue = parseFloat(user.financialGoal) * 100000;
                 const mutualFundInvestment = investments
                   .filter(inv => inv.type === 'mutual-funds')
                   .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
@@ -515,11 +515,11 @@ export default function Dashboard() {
                   .filter(inv => inv.type === 'term-insurance')
                   .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
                 
-                const currentProgress = ((totalInvestment / goalAmount) * 100);
+                const currentProgress = ((totalInvestment / goalAmountValue) * 100);
                 const progressPercent = Math.min(currentProgress, 100);
                 
                 const calculateYearsToGoal = () => {
-                  if (totalInvestment >= goalAmount) return 0;
+                  if (totalInvestment >= goalAmountValue) return 0;
                   
                   const monthlySIP = mutualFundInvestment / 12;
                   const annualGrowth = 0.12;
@@ -531,7 +531,7 @@ export default function Dashboard() {
                   let projectedValue = totalInvestment;
                   let years = 0;
                   
-                  while (projectedValue < goalAmount && years < 50) {
+                  while (projectedValue < goalAmountValue && years < 50) {
                     projectedValue = projectedValue * (1 + annualGrowth) + (monthlySIP * 12);
                     
                     if (termInvestmentComplete || (termYearsInvested + years >= 10 && termInsuranceInvestment > 0)) {
@@ -546,7 +546,7 @@ export default function Dashboard() {
                 const yearsToGoal = calculateYearsToGoal();
                 
                 return (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-muted-foreground">Current Progress</span>
@@ -555,72 +555,40 @@ export default function Dashboard() {
                       <Progress value={progressPercent} className="h-3" />
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-medium">{formatCurrency(totalInvestment)}</span>
-                        <span className="text-muted-foreground">Goal: {formatCurrency(goalAmount)}</span>
+                        <span className="text-muted-foreground">Goal: {formatCurrency(goalAmountValue)}</span>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="p-4 rounded-md bg-muted/50">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Clock className="w-4 h-4 text-primary" />
-                          <span className="text-sm text-muted-foreground">Time to Goal</span>
-                        </div>
-                        <p className="text-2xl font-bold" data-testid="text-years-to-goal">
-                          {yearsToGoal === 0 ? "Achieved!" : `~${yearsToGoal} Years`}
+                      <div className="p-3 rounded-md bg-muted/50 text-center">
+                        <Clock className="w-5 h-5 text-primary mx-auto mb-1" />
+                        <p className="text-lg font-bold" data-testid="text-years-to-goal-inline">
+                          {yearsToGoal === 0 ? "Done!" : `~${yearsToGoal}Y`}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Based on 12% annual growth
-                        </p>
+                        <p className="text-xs text-muted-foreground">To Goal</p>
                       </div>
-                      
-                      <div className="p-4 rounded-md bg-blue-500/10">
-                        <div className="flex items-center gap-2 mb-2">
-                          <TrendingUp className="w-4 h-4 text-blue-500" />
-                          <span className="text-sm text-muted-foreground">Mutual Funds</span>
-                        </div>
-                        <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                      <div className="p-3 rounded-md bg-blue-500/10 text-center">
+                        <TrendingUp className="w-5 h-5 text-blue-500 mx-auto mb-1" />
+                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
                           {formatCurrency(mutualFundInvestment)}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          12% projected annual growth
-                        </p>
+                        <p className="text-xs text-muted-foreground">Mutual Funds</p>
                       </div>
-                      
-                      <div className="p-4 rounded-md bg-green-500/10">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Shield className="w-4 h-4 text-green-500" />
-                          <span className="text-sm text-muted-foreground">Term Insurance</span>
-                        </div>
-                        <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                      <div className="p-3 rounded-md bg-green-500/10 text-center">
+                        <Shield className="w-5 h-5 text-green-500 mx-auto mb-1" />
+                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
                           {formatCurrency(termInsuranceInvestment)}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {termInsuranceInvestment >= 5000000 
-                            ? "2L/year payout active (age 24-99)" 
-                            : `Invest 5L/year for 10 years for 2L yearly payout`}
-                        </p>
+                        <p className="text-xs text-muted-foreground">Term Insurance</p>
                       </div>
-                    </div>
-                    
-                    <div className="p-4 rounded-md bg-primary/5 border border-primary/20">
-                      <p className="text-sm">
-                        <span className="font-medium">Your Goal:</span> Achieve {formatCurrency(goalAmount)} in {user.goalTimeline || "your timeline"}.
-                        {yearsToGoal > 0 && (
-                          <span className="text-muted-foreground">
-                            {" "}At current pace with 12% mutual fund growth
-                            {termInsuranceInvestment > 0 && " and term insurance benefits (2L/year after 10-year investment)"}, 
-                            you're projected to reach your goal in approximately {yearsToGoal} years.
-                          </span>
-                        )}
-                      </p>
                     </div>
                   </div>
                 );
               })()}
             </CardContent>
           </Card>
-        ) : (
-          <Card className="mt-6" data-testid="card-set-goal">
+        ) : !user?.financialGoal || isEditingGoal ? (
+          <Card className="mt-6" data-testid="card-set-goal-inline">
             <CardHeader className="flex flex-row items-center justify-between gap-4">
               <div>
                 <CardTitle className="flex items-center gap-2">
@@ -628,7 +596,7 @@ export default function Dashboard() {
                   {isEditingGoal ? "Edit Your Goal" : "Set Your Financial Goal"}
                 </CardTitle>
                 <CardDescription>
-                  {isEditingGoal ? "Update your financial target" : "Define your target to track your progress"}
+                  {isEditingGoal ? "Update your financial target" : "Define your target to track progress"}
                 </CardDescription>
               </div>
               {isEditingGoal && (
@@ -640,30 +608,31 @@ export default function Dashboard() {
                     setGoalAmount("");
                     setGoalTimeline("");
                   }}
-                  data-testid="button-cancel-edit"
+                  data-testid="button-cancel-edit-inline"
                 >
                   Cancel
                 </Button>
               )}
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                 <div className="space-y-2">
-                  <Label htmlFor="goal-amount">Financial Goal (in Lakhs)</Label>
+                  <Label htmlFor="goal-amount-inline">Goal Amount (in Lakhs)</Label>
                   <Input
-                    id="goal-amount"
+                    id="goal-amount-inline"
                     type="number"
-                    placeholder="e.g., 50 for 50 Lakhs"
+                    placeholder="e.g., 50"
                     value={goalAmount}
                     onChange={(e) => setGoalAmount(e.target.value)}
-                    data-testid="input-goal-amount"
+                    data-testid="input-goal-amount-inline"
                   />
+                  <p className="text-xs text-muted-foreground">K=Thousand, L=Lakh, Cr=Crore</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="goal-timeline">Goal Timeline</Label>
+                  <Label htmlFor="goal-timeline-inline">Timeline</Label>
                   <Select value={goalTimeline} onValueChange={setGoalTimeline}>
-                    <SelectTrigger id="goal-timeline" data-testid="select-goal-timeline">
-                      <SelectValue placeholder="Select timeline" />
+                    <SelectTrigger id="goal-timeline-inline" data-testid="select-goal-timeline-inline">
+                      <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
                       {goalTimelines.map((timeline) => (
@@ -681,22 +650,77 @@ export default function Dashboard() {
                     }
                   }}
                   disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
-                  className="w-full"
-                  data-testid="button-save-goal"
+                  data-testid="button-save-goal-inline"
                 >
-                  {updateGoal.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Goal"
-                  )}
+                  {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
                 </Button>
               </div>
             </CardContent>
           </Card>
-        )}
+        ) : null}
+
+        <Card className="mt-6" data-testid="card-recommended-plans-section">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-primary" />
+              Recommended Plans
+            </CardTitle>
+            <CardDescription>Personalized recommendations based on your profile</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-md bg-blue-500/10 border border-blue-500/20">
+                <TrendingUp className="w-8 h-8 text-blue-500 mb-3" />
+                <h4 className="font-medium text-blue-600 dark:text-blue-400">Mutual Fund SIP</h4>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Start monthly SIP for long-term wealth creation.
+                </p>
+                <Button
+                  size="sm"
+                  className="mt-3 w-full"
+                  onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
+                  data-testid="button-recommended-sip-section"
+                >
+                  Start SIP
+                </Button>
+              </div>
+
+              <div className="p-4 rounded-md bg-green-500/10 border border-green-500/20">
+                <Shield className="w-8 h-8 text-green-500 mb-3" />
+                <h4 className="font-medium text-green-600 dark:text-green-400">Term Insurance</h4>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Protect your family with life coverage.
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-3 w-full"
+                  onClick={() => window.open("https://wa.me/919820320216?text=Hi, I am interested in Term Insurance", "_blank")}
+                  data-testid="button-recommended-term-section"
+                >
+                  Get Quote
+                </Button>
+              </div>
+
+              <div className="p-4 rounded-md bg-rose-500/10 border border-rose-500/20">
+                <Heart className="w-8 h-8 text-rose-500 mb-3" />
+                <h4 className="font-medium text-rose-600 dark:text-rose-400">Health Insurance</h4>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Secure your health with family floater plan.
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-3 w-full"
+                  onClick={() => window.open("https://wa.me/919820320216?text=Hi, I am interested in Health Insurance", "_blank")}
+                  data-testid="button-recommended-health-section"
+                >
+                  Get Quote
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {hasInvestments && (
           <Card className="mt-6" data-testid="card-recent-investments">
