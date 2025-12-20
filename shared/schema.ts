@@ -40,6 +40,8 @@ export const users = pgTable("users", {
   pincode: varchar("pincode"),
   occupation: varchar("occupation"),
   annualIncome: varchar("annual_income"),
+  financialGoal: varchar("financial_goal"),
+  goalTimeline: varchar("goal_timeline"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -59,6 +61,8 @@ export const updateUserProfileSchema = createInsertSchema(users).pick({
   pincode: true,
   occupation: true,
   annualIncome: true,
+  financialGoal: true,
+  goalTimeline: true,
 }).partial();
 
 export type UpdateUserProfile = z.infer<typeof updateUserProfileSchema>;

@@ -4,7 +4,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { TrendingUp, Shield, Heart, Plus, Loader2, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, LogOut } from "lucide-react";
+import { TrendingUp, Shield, Heart, Plus, Loader2, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, LogOut, Target, Clock } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import ThemeToggle from "@/components/ThemeToggle";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
@@ -341,6 +342,24 @@ export default function Dashboard() {
                     </p>
                   </div>
                 </div>
+                <div className="flex items-center gap-3">
+                  <Target className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Financial Goal</p>
+                    <p className="font-medium" data-testid="text-profile-goal">
+                      {user?.financialGoal ? `${user.financialGoal} Lakhs` : "Not set"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Goal Timeline</p>
+                    <p className="font-medium" data-testid="text-profile-timeline">
+                      {user?.goalTimeline || "Not set"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -420,6 +439,122 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {user?.financialGoal && (
+          <Card className="mt-6" data-testid="card-goal-progress">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-primary" />
+                Goal Progress
+              </CardTitle>
+              <CardDescription>Track your journey towards your financial goal</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {(() => {
+                const goalAmount = parseFloat(user.financialGoal) * 100000;
+                const mutualFundInvestment = investments
+                  .filter(inv => inv.type === 'mutual-funds')
+                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
+                const termInsuranceInvestment = investments
+                  .filter(inv => inv.type === 'term-insurance')
+                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
+                
+                const currentProgress = ((totalInvestment / goalAmount) * 100);
+                const progressPercent = Math.min(currentProgress, 100);
+                
+                const calculateYearsToGoal = () => {
+                  if (totalInvestment >= goalAmount) return 0;
+                  
+                  const monthlySIP = mutualFundInvestment / 12;
+                  const annualGrowth = 0.12;
+                  
+                  let projectedValue = totalInvestment;
+                  let years = 0;
+                  
+                  while (projectedValue < goalAmount && years < 50) {
+                    projectedValue = projectedValue * (1 + annualGrowth) + (monthlySIP * 12);
+                    if (termInsuranceInvestment >= 500000) {
+                      projectedValue += 200000;
+                    }
+                    years++;
+                  }
+                  
+                  return years;
+                };
+                
+                const yearsToGoal = calculateYearsToGoal();
+                
+                return (
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Current Progress</span>
+                        <span className="font-medium">{progressPercent.toFixed(1)}%</span>
+                      </div>
+                      <Progress value={progressPercent} className="h-3" />
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-medium">{formatCurrency(totalInvestment)}</span>
+                        <span className="text-muted-foreground">Goal: {formatCurrency(goalAmount)}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-4 rounded-md bg-muted/50">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Clock className="w-4 h-4 text-primary" />
+                          <span className="text-sm text-muted-foreground">Time to Goal</span>
+                        </div>
+                        <p className="text-2xl font-bold" data-testid="text-years-to-goal">
+                          {yearsToGoal === 0 ? "Achieved!" : `~${yearsToGoal} Years`}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Based on 12% annual growth
+                        </p>
+                      </div>
+                      
+                      <div className="p-4 rounded-md bg-blue-500/10">
+                        <div className="flex items-center gap-2 mb-2">
+                          <TrendingUp className="w-4 h-4 text-blue-500" />
+                          <span className="text-sm text-muted-foreground">Mutual Funds</span>
+                        </div>
+                        <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                          {formatCurrency(mutualFundInvestment)}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          12% projected annual growth
+                        </p>
+                      </div>
+                      
+                      <div className="p-4 rounded-md bg-green-500/10">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Shield className="w-4 h-4 text-green-500" />
+                          <span className="text-sm text-muted-foreground">Term Insurance</span>
+                        </div>
+                        <p className="text-xl font-bold text-green-600 dark:text-green-400">
+                          {formatCurrency(termInsuranceInvestment)}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {termInsuranceInvestment >= 500000 ? "2L yearly benefit active" : "Invest 5L for 2L yearly"}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 rounded-md bg-primary/5 border border-primary/20">
+                      <p className="text-sm">
+                        <span className="font-medium">Your Goal:</span> Achieve {formatCurrency(goalAmount)} in {user.goalTimeline || "your timeline"}.
+                        {yearsToGoal > 0 && (
+                          <span className="text-muted-foreground">
+                            {" "}At current pace with 12% mutual fund growth and term insurance benefits, you're projected to reach your goal in approximately {yearsToGoal} years.
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })()}
+            </CardContent>
+          </Card>
+        )}
 
         {hasInvestments && (
           <Card className="mt-6" data-testid="card-recent-investments">

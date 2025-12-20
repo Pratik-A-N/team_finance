@@ -52,6 +52,14 @@ const incomeRanges = [
   "Above 50 Lakhs"
 ];
 
+const goalTimelines = [
+  "1-3 Years",
+  "3-5 Years",
+  "5-10 Years",
+  "10-15 Years",
+  "15+ Years"
+];
+
 const onboardingSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
@@ -63,6 +71,8 @@ const onboardingSchema = z.object({
   pincode: z.string().min(6, "Please enter a valid 6-digit pincode").max(6),
   occupation: z.string().min(1, "Occupation is required"),
   annualIncome: z.string().min(1, "Annual income is required"),
+  financialGoal: z.string().min(1, "Financial goal is required"),
+  goalTimeline: z.string().min(1, "Goal timeline is required"),
 });
 
 type OnboardingFormData = z.infer<typeof onboardingSchema>;
@@ -90,6 +100,8 @@ export default function OnboardingModal({ user, open, onComplete }: OnboardingMo
       pincode: "",
       occupation: "",
       annualIncome: "",
+      financialGoal: "",
+      goalTimeline: "",
     },
   });
 
@@ -106,6 +118,8 @@ export default function OnboardingModal({ user, open, onComplete }: OnboardingMo
         pincode: user.pincode || "",
         occupation: user.occupation || "",
         annualIncome: user.annualIncome || "",
+        financialGoal: user.financialGoal || "",
+        goalTimeline: user.goalTimeline || "",
       });
     }
   }, [user, form]);
@@ -350,6 +364,50 @@ export default function OnboardingModal({ user, open, onComplete }: OnboardingMo
                           {incomeRanges.map((range) => (
                             <SelectItem key={range} value={range}>
                               {range}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="financialGoal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Financial Goal (in Lakhs) *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          placeholder="e.g., 50 for 50 Lakhs" 
+                          {...field} 
+                          data-testid="onboard-input-goal" 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="goalTimeline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Goal Timeline *</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger data-testid="onboard-select-timeline">
+                            <SelectValue placeholder="When do you want to achieve this?" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {goalTimelines.map((timeline) => (
+                            <SelectItem key={timeline} value={timeline}>
+                              {timeline}
                             </SelectItem>
                           ))}
                         </SelectContent>
