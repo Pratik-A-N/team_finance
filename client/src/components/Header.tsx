@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Menu, Phone, TrendingUp, Shield, Heart, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import ThemeToggle from "@/components/ThemeToggle";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 const services = [
@@ -165,6 +166,7 @@ export default function Header({ onContactClick }: HeaderProps) {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
             <Button
               variant="ghost"
               size="sm"
@@ -325,6 +327,10 @@ export default function Header({ onContactClick }: HeaderProps) {
                     FAQ
                   </a>
                 </nav>
+                <div className="flex items-center justify-between py-2 border-t mt-2">
+                  <span className="text-sm text-muted-foreground">Theme</span>
+                  <ThemeToggle />
+                </div>
                 <div className="flex flex-col gap-3 mt-4">
                   {!isLoading && (
                     isAuthenticated ? (

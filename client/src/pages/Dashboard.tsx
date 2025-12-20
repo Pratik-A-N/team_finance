@@ -433,7 +433,7 @@ export default function Dashboard() {
               )}
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <div className="grid grid-cols-1 md:grid-cols-[1fr,1fr,auto] gap-4 items-end">
                 <div className="space-y-2">
                   <Label htmlFor="goal-amount">Goal Amount (in Lakhs)</Label>
                   <Input
@@ -465,20 +465,17 @@ export default function Dashboard() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <Button
-                    className="w-full"
-                    onClick={() => {
-                      if (goalAmount && goalTimeline) {
-                        updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
-                      }
-                    }}
-                    disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
-                    data-testid="button-save-goal"
-                  >
-                    {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => {
+                    if (goalAmount && goalTimeline) {
+                      updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
+                    }
+                  }}
+                  disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
+                  data-testid="button-save-goal"
+                >
+                  {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
+                </Button>
               </div>
             </CardContent>
           </Card>
