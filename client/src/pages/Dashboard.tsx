@@ -506,12 +506,17 @@ export default function Dashboard() {
                   const monthlySIP = mutualFundInvestment / 12;
                   const annualGrowth = 0.12;
                   
+                  const totalTermInvestmentNeeded = 5000000;
+                  const termInvestmentComplete = termInsuranceInvestment >= totalTermInvestmentNeeded;
+                  const termYearsInvested = Math.min(Math.floor(termInsuranceInvestment / 500000), 10);
+                  
                   let projectedValue = totalInvestment;
                   let years = 0;
                   
                   while (projectedValue < goalAmount && years < 50) {
                     projectedValue = projectedValue * (1 + annualGrowth) + (monthlySIP * 12);
-                    if (termInsuranceInvestment >= 500000) {
+                    
+                    if (termInvestmentComplete || (termYearsInvested + years >= 10 && termInsuranceInvestment > 0)) {
                       projectedValue += 200000;
                     }
                     years++;
@@ -572,7 +577,9 @@ export default function Dashboard() {
                           {formatCurrency(termInsuranceInvestment)}
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">
-                          {termInsuranceInvestment >= 500000 ? "2L yearly benefit active" : "Invest 5L for 2L yearly"}
+                          {termInsuranceInvestment >= 5000000 
+                            ? "2L/year payout active (age 24-99)" 
+                            : `Invest 5L/year for 10 years for 2L yearly payout`}
                         </p>
                       </div>
                     </div>
@@ -582,7 +589,9 @@ export default function Dashboard() {
                         <span className="font-medium">Your Goal:</span> Achieve {formatCurrency(goalAmount)} in {user.goalTimeline || "your timeline"}.
                         {yearsToGoal > 0 && (
                           <span className="text-muted-foreground">
-                            {" "}At current pace with 12% mutual fund growth and term insurance benefits, you're projected to reach your goal in approximately {yearsToGoal} years.
+                            {" "}At current pace with 12% mutual fund growth
+                            {termInsuranceInvestment > 0 && " and term insurance benefits (2L/year after 10-year investment)"}, 
+                            you're projected to reach your goal in approximately {yearsToGoal} years.
                           </span>
                         )}
                       </p>
