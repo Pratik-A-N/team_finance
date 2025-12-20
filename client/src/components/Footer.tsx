@@ -69,7 +69,9 @@ export default function Footer() {
               <div className="flex items-center gap-3 text-sm">
                 <Phone className="w-4 h-4 text-muted-foreground" />
                 <a
-                  href="tel:+919820320216"
+                  href="https://wa.me/919820320216"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-primary"
                   data-testid="footer-phone"
                 >

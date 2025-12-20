@@ -43,7 +43,7 @@ export default function ContactCTA({ onScheduleCall }: ContactCTAProps) {
               className="gap-2 bg-transparent border-primary-foreground/30 text-primary-foreground"
               asChild
             >
-              <a href="tel:+919820320216" data-testid="cta-button-call">
+              <a href="https://wa.me/919820320216" target="_blank" rel="noopener noreferrer" data-testid="cta-button-call">
                 <Phone className="w-5 h-5" />
                 +91 9820320216
               </a>
