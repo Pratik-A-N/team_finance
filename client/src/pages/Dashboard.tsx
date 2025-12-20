@@ -4,7 +4,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home, Download, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle } from "lucide-react";
+import { TrendingUp, Shield, Heart, ArrowLeft, Plus, Loader2, Home, Download, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, LogOut } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
@@ -84,15 +85,18 @@ export default function Dashboard() {
             <Link href="/" className="flex items-center gap-2" data-testid="link-home">
               <img src={logoImage} alt="Team Finance Logo" className="h-12 w-auto" />
             </Link>
-            <Button
-              variant="outline"
-              className="gap-2"
-              onClick={() => setLocation("/")}
-              data-testid="button-back-home"
-            >
-              <Home className="w-4 h-4" />
-              Back to Home
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Button
+                variant="outline"
+                className="gap-2"
+                onClick={() => window.location.href = '/api/logout'}
+                data-testid="button-logout"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
