@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import ThemeToggle from "@/components/ThemeToggle";
+import Footer from "@/components/Footer";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
@@ -452,8 +453,8 @@ export default function Dashboard() {
               )}
             </CardHeader>
             <CardContent>
-              <div className="flex flex-wrap items-end gap-4">
-                <div className="flex-1 min-w-[150px] space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div className="space-y-2">
                   <Label htmlFor="goal-amount">Goal Amount (in Lakhs)</Label>
                   <Input
                     id="goal-amount"
@@ -469,7 +470,7 @@ export default function Dashboard() {
                     </p>
                   )}
                 </div>
-                <div className="flex-1 min-w-[150px] space-y-2">
+                <div className="space-y-2">
                   <Label htmlFor="goal-timeline">Timeline</Label>
                   <Select value={goalTimeline} onValueChange={setGoalTimeline}>
                     <SelectTrigger id="goal-timeline" data-testid="select-goal-timeline">
@@ -484,17 +485,20 @@ export default function Dashboard() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button
-                  onClick={() => {
-                    if (goalAmount && goalTimeline) {
-                      updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
-                    }
-                  }}
-                  disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
-                  data-testid="button-save-goal"
-                >
-                  {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
-                </Button>
+                <div>
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      if (goalAmount && goalTimeline) {
+                        updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
+                      }
+                    }}
+                    disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
+                    data-testid="button-save-goal"
+                  >
+                    {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -708,6 +712,7 @@ export default function Dashboard() {
           </Card>
         )}
       </main>
+      <Footer />
     </div>
   );
 }
