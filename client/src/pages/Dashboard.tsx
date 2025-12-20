@@ -1,14 +1,28 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation, Link } from "wouter";
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { TrendingUp, Shield, Heart, Plus, Loader2, User, MapPin, Briefcase, IndianRupee, Calendar, Phone, CheckCircle, LogOut, Target, Clock } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import ThemeToggle from "@/components/ThemeToggle";
 import type { Investment } from "@shared/schema";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
+
+const goalTimelines = [
+  "1-3 Years",
+  "3-5 Years",
+  "5-10 Years",
+  "10-15 Years",
+  "15+ Years"
+];
 
 const COLORS = {
   "mutual-funds": "#3B82F6",
@@ -42,10 +56,34 @@ function formatCurrency(amount: number): string {
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+  const [goalAmount, setGoalAmount] = useState("");
+  const [goalTimeline, setGoalTimeline] = useState("");
 
   const { data: investments = [], isLoading: investmentsLoading } = useQuery<Investment[]>({
     queryKey: ["/api/investments"],
     enabled: isAuthenticated,
+  });
+
+  const updateGoal = useMutation({
+    mutationFn: async (data: { financialGoal: string; goalTimeline: string }) => {
+      const response = await apiRequest("PATCH", "/api/auth/profile", data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      toast({
+        title: "Goal Updated",
+        description: "Your financial goal has been saved successfully.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to save your goal. Please try again.",
+        variant: "destructive",
+      });
+    },
   });
 
   if (authLoading) {
@@ -440,7 +478,7 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {user?.financialGoal && (
+        {user?.financialGoal ? (
           <Card className="mt-6" data-testid="card-goal-progress">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -552,6 +590,65 @@ export default function Dashboard() {
                   </div>
                 );
               })()}
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mt-6" data-testid="card-set-goal">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-primary" />
+                Set Your Financial Goal
+              </CardTitle>
+              <CardDescription>Define your target to track your progress</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="goal-amount">Financial Goal (in Lakhs)</Label>
+                  <Input
+                    id="goal-amount"
+                    type="number"
+                    placeholder="e.g., 50 for 50 Lakhs"
+                    value={goalAmount}
+                    onChange={(e) => setGoalAmount(e.target.value)}
+                    data-testid="input-goal-amount"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="goal-timeline">Goal Timeline</Label>
+                  <Select value={goalTimeline} onValueChange={setGoalTimeline}>
+                    <SelectTrigger id="goal-timeline" data-testid="select-goal-timeline">
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {goalTimelines.map((timeline) => (
+                        <SelectItem key={timeline} value={timeline}>
+                          {timeline}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button
+                  onClick={() => {
+                    if (goalAmount && goalTimeline) {
+                      updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
+                    }
+                  }}
+                  disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
+                  className="w-full"
+                  data-testid="button-save-goal"
+                >
+                  {updateGoal.isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Goal"
+                  )}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         )}
