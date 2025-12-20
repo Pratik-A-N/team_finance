@@ -156,6 +156,187 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {user?.financialGoal && !isEditingGoal ? (
+          <Card className="mb-6" data-testid="card-goal-progress-top">
+            <CardHeader className="flex flex-row items-center justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  Goal Progress
+                </CardTitle>
+                <CardDescription>Track your journey towards your financial goal</CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setGoalAmount(user.financialGoal || "");
+                  setGoalTimeline(user.goalTimeline || "");
+                  setIsEditingGoal(true);
+                }}
+                data-testid="button-edit-goal-top"
+              >
+                Edit Goal
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {(() => {
+                const goalAmountValue = parseFloat(user.financialGoal) * 100000;
+                const mutualFundInvestment = investments
+                  .filter(inv => inv.type === 'mutual-funds')
+                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
+                const termInsuranceInvestment = investments
+                  .filter(inv => inv.type === 'term-insurance')
+                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
+                
+                const currentProgress = ((totalInvestment / goalAmountValue) * 100);
+                const progressPercent = Math.min(currentProgress, 100);
+                
+                const calculateYearsToGoal = () => {
+                  if (totalInvestment >= goalAmountValue) return 0;
+                  
+                  const monthlySIP = mutualFundInvestment / 12;
+                  const annualGrowth = 0.12;
+                  
+                  const totalTermInvestmentNeeded = 5000000;
+                  const termInvestmentComplete = termInsuranceInvestment >= totalTermInvestmentNeeded;
+                  const termYearsInvested = Math.min(Math.floor(termInsuranceInvestment / 500000), 10);
+                  
+                  let projectedValue = totalInvestment;
+                  let years = 0;
+                  
+                  while (projectedValue < goalAmountValue && years < 50) {
+                    projectedValue = projectedValue * (1 + annualGrowth) + (monthlySIP * 12);
+                    
+                    if (termInvestmentComplete || (termYearsInvested + years >= 10 && termInsuranceInvestment > 0)) {
+                      projectedValue += 200000;
+                    }
+                    years++;
+                  }
+                  
+                  return years;
+                };
+                
+                const yearsToGoal = calculateYearsToGoal();
+                
+                return (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Current Progress</span>
+                        <span className="font-medium">{progressPercent.toFixed(1)}%</span>
+                      </div>
+                      <Progress value={progressPercent} className="h-3" />
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="font-medium">{formatCurrency(totalInvestment)}</span>
+                        <span className="text-muted-foreground">Goal: {formatCurrency(goalAmountValue)}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="p-3 rounded-md bg-muted/50 text-center">
+                        <Clock className="w-5 h-5 text-primary mx-auto mb-1" />
+                        <p className="text-lg font-bold" data-testid="text-years-to-goal-top">
+                          {yearsToGoal === 0 ? "Done!" : `~${yearsToGoal}Y`}
+                        </p>
+                        <p className="text-xs text-muted-foreground">To Goal</p>
+                      </div>
+                      <div className="p-3 rounded-md bg-blue-500/10 text-center">
+                        <TrendingUp className="w-5 h-5 text-blue-500 mx-auto mb-1" />
+                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                          {formatCurrency(mutualFundInvestment)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">Mutual Funds</p>
+                      </div>
+                      <div className="p-3 rounded-md bg-green-500/10 text-center">
+                        <Shield className="w-5 h-5 text-green-500 mx-auto mb-1" />
+                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                          {formatCurrency(termInsuranceInvestment)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">Term Insurance</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="mb-6" data-testid="card-set-goal-top">
+            <CardHeader className="flex flex-row items-center justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary" />
+                  {isEditingGoal ? "Edit Your Goal" : "Set Your Financial Goal"}
+                </CardTitle>
+                <CardDescription>
+                  {isEditingGoal ? "Update your financial target" : "Define your target to track progress"}
+                </CardDescription>
+              </div>
+              {isEditingGoal && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setIsEditingGoal(false);
+                    setGoalAmount("");
+                    setGoalTimeline("");
+                  }}
+                  data-testid="button-cancel-edit-top"
+                >
+                  Cancel
+                </Button>
+              )}
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div className="space-y-2">
+                  <Label htmlFor="goal-amount-top">Goal Amount (in Lakhs)</Label>
+                  <Input
+                    id="goal-amount-top"
+                    type="number"
+                    placeholder="e.g., 50"
+                    value={goalAmount}
+                    onChange={(e) => setGoalAmount(e.target.value)}
+                    data-testid="input-goal-amount-top"
+                  />
+                  {goalAmount && (
+                    <p className="text-xs text-primary font-medium">
+                      = {formatCurrency(parseFloat(goalAmount) * 100000)}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="goal-timeline-top">Timeline</Label>
+                  <Select value={goalTimeline} onValueChange={setGoalTimeline}>
+                    <SelectTrigger id="goal-timeline-top" data-testid="select-goal-timeline-top">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {goalTimelines.map((timeline) => (
+                        <SelectItem key={timeline} value={timeline}>
+                          {timeline}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button
+                  onClick={() => {
+                    if (goalAmount && goalTimeline) {
+                      updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
+                    }
+                  }}
+                  disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
+                  data-testid="button-save-goal-top"
+                >
+                  {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2" data-testid="card-investment-chart">
             <CardHeader>
@@ -481,183 +662,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
-
-        {user?.financialGoal && !isEditingGoal ? (
-          <Card className="mt-6" data-testid="card-goal-progress-inline">
-            <CardHeader className="flex flex-row items-center justify-between gap-4">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Target className="w-5 h-5 text-primary" />
-                  Goal Progress
-                </CardTitle>
-                <CardDescription>Track your journey towards your financial goal</CardDescription>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setGoalAmount(user.financialGoal || "");
-                  setGoalTimeline(user.goalTimeline || "");
-                  setIsEditingGoal(true);
-                }}
-                data-testid="button-edit-goal-inline"
-              >
-                Edit Goal
-              </Button>
-            </CardHeader>
-            <CardContent>
-              {(() => {
-                const goalAmountValue = parseFloat(user.financialGoal) * 100000;
-                const mutualFundInvestment = investments
-                  .filter(inv => inv.type === 'mutual-funds')
-                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
-                const termInsuranceInvestment = investments
-                  .filter(inv => inv.type === 'term-insurance')
-                  .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
-                
-                const currentProgress = ((totalInvestment / goalAmountValue) * 100);
-                const progressPercent = Math.min(currentProgress, 100);
-                
-                const calculateYearsToGoal = () => {
-                  if (totalInvestment >= goalAmountValue) return 0;
-                  
-                  const monthlySIP = mutualFundInvestment / 12;
-                  const annualGrowth = 0.12;
-                  
-                  const totalTermInvestmentNeeded = 5000000;
-                  const termInvestmentComplete = termInsuranceInvestment >= totalTermInvestmentNeeded;
-                  const termYearsInvested = Math.min(Math.floor(termInsuranceInvestment / 500000), 10);
-                  
-                  let projectedValue = totalInvestment;
-                  let years = 0;
-                  
-                  while (projectedValue < goalAmountValue && years < 50) {
-                    projectedValue = projectedValue * (1 + annualGrowth) + (monthlySIP * 12);
-                    
-                    if (termInvestmentComplete || (termYearsInvested + years >= 10 && termInsuranceInvestment > 0)) {
-                      projectedValue += 200000;
-                    }
-                    years++;
-                  }
-                  
-                  return years;
-                };
-                
-                const yearsToGoal = calculateYearsToGoal();
-                
-                return (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">Current Progress</span>
-                        <span className="font-medium">{progressPercent.toFixed(1)}%</span>
-                      </div>
-                      <Progress value={progressPercent} className="h-3" />
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="font-medium">{formatCurrency(totalInvestment)}</span>
-                        <span className="text-muted-foreground">Goal: {formatCurrency(goalAmountValue)}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="p-3 rounded-md bg-muted/50 text-center">
-                        <Clock className="w-5 h-5 text-primary mx-auto mb-1" />
-                        <p className="text-lg font-bold" data-testid="text-years-to-goal-inline">
-                          {yearsToGoal === 0 ? "Done!" : `~${yearsToGoal}Y`}
-                        </p>
-                        <p className="text-xs text-muted-foreground">To Goal</p>
-                      </div>
-                      <div className="p-3 rounded-md bg-blue-500/10 text-center">
-                        <TrendingUp className="w-5 h-5 text-blue-500 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                          {formatCurrency(mutualFundInvestment)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">Mutual Funds</p>
-                      </div>
-                      <div className="p-3 rounded-md bg-green-500/10 text-center">
-                        <Shield className="w-5 h-5 text-green-500 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
-                          {formatCurrency(termInsuranceInvestment)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">Term Insurance</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
-            </CardContent>
-          </Card>
-        ) : !user?.financialGoal || isEditingGoal ? (
-          <Card className="mt-6" data-testid="card-set-goal-inline">
-            <CardHeader className="flex flex-row items-center justify-between gap-4">
-              <div>
-                <CardTitle className="flex items-center gap-2">
-                  <Target className="w-5 h-5 text-primary" />
-                  {isEditingGoal ? "Edit Your Goal" : "Set Your Financial Goal"}
-                </CardTitle>
-                <CardDescription>
-                  {isEditingGoal ? "Update your financial target" : "Define your target to track progress"}
-                </CardDescription>
-              </div>
-              {isEditingGoal && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setIsEditingGoal(false);
-                    setGoalAmount("");
-                    setGoalTimeline("");
-                  }}
-                  data-testid="button-cancel-edit-inline"
-                >
-                  Cancel
-                </Button>
-              )}
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                <div className="space-y-2">
-                  <Label htmlFor="goal-amount-inline">Goal Amount (in Lakhs)</Label>
-                  <Input
-                    id="goal-amount-inline"
-                    type="number"
-                    placeholder="e.g., 50"
-                    value={goalAmount}
-                    onChange={(e) => setGoalAmount(e.target.value)}
-                    data-testid="input-goal-amount-inline"
-                  />
-                  <p className="text-xs text-muted-foreground">K=Thousand, L=Lakh, Cr=Crore</p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="goal-timeline-inline">Timeline</Label>
-                  <Select value={goalTimeline} onValueChange={setGoalTimeline}>
-                    <SelectTrigger id="goal-timeline-inline" data-testid="select-goal-timeline-inline">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {goalTimelines.map((timeline) => (
-                        <SelectItem key={timeline} value={timeline}>
-                          {timeline}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button
-                  onClick={() => {
-                    if (goalAmount && goalTimeline) {
-                      updateGoal.mutate({ financialGoal: goalAmount, goalTimeline });
-                    }
-                  }}
-                  disabled={!goalAmount || !goalTimeline || updateGoal.isPending}
-                  data-testid="button-save-goal-inline"
-                >
-                  {updateGoal.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Goal"}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ) : null}
 
         <Card className="mt-6" data-testid="card-recommended-plans-section">
           <CardHeader>
