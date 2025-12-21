@@ -333,11 +333,12 @@ export default function Dashboard() {
                   .filter(inv => inv.type === 'term-insurance')
                   .reduce((sum, inv) => sum + parseFloat(inv.amount), 0);
                 
-                const currentProgress = ((totalInvestment / goalAmountValue) * 100);
+                const goalRelevantInvestment = mutualFundInvestment + termInsuranceInvestment;
+                const currentProgress = ((goalRelevantInvestment / goalAmountValue) * 100);
                 const progressPercent = Math.min(currentProgress, 100);
                 
                 const calculateYearsToGoal = () => {
-                  if (totalInvestment >= goalAmountValue) return 0;
+                  if (goalRelevantInvestment >= goalAmountValue) return 0;
                   
                   const monthlySIP = mutualFundInvestment / 12;
                   const annualGrowth = 0.12;
@@ -346,7 +347,7 @@ export default function Dashboard() {
                   const termInvestmentComplete = termInsuranceInvestment >= totalTermInvestmentNeeded;
                   const termYearsInvested = Math.min(Math.floor(termInsuranceInvestment / 500000), 10);
                   
-                  let projectedValue = totalInvestment;
+                  let projectedValue = goalRelevantInvestment;
                   let years = 0;
                   
                   while (projectedValue < goalAmountValue && years < 50) {
@@ -372,7 +373,7 @@ export default function Dashboard() {
                       </div>
                       <Progress value={progressPercent} className="h-3" />
                       <div className="flex items-center justify-between text-sm">
-                        <span className="font-medium">{formatCurrency(totalInvestment)}</span>
+                        <span className="font-medium">{formatCurrency(goalRelevantInvestment)}</span>
                         <span className="text-muted-foreground">Goal: {formatCurrency(goalAmountValue)}</span>
                       </div>
                     </div>
