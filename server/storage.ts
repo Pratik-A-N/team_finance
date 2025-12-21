@@ -8,7 +8,7 @@ import {
   type InsertInvestment,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -16,6 +16,7 @@ export interface IStorage {
   updateUserProfile(id: string, profile: UpdateUserProfile): Promise<User | undefined>;
   getInvestmentsByUserId(userId: string): Promise<Investment[]>;
   createInvestment(investment: InsertInvestment): Promise<Investment>;
+  ensureDefaultInvestments(userId: string): Promise<void>;
   getAllUsers(): Promise<User[]>;
   getAllInvestments(): Promise<Investment[]>;
 }
@@ -60,6 +61,32 @@ export class DatabaseStorage implements IStorage {
   async createInvestment(investment: InsertInvestment): Promise<Investment> {
     const [created] = await db.insert(investments).values(investment).returning();
     return created;
+  }
+
+  async ensureDefaultInvestments(userId: string): Promise<void> {
+    const defaultInvestments = [
+      { type: "mutual-funds", name: "Mutual Fund SIP" },
+      { type: "term-insurance", name: "Term Life Insurance" },
+      { type: "health-insurance", name: "Health Insurance Premium" },
+    ];
+
+    for (const inv of defaultInvestments) {
+      const existing = await db
+        .select()
+        .from(investments)
+        .where(and(eq(investments.userId, userId), eq(investments.type, inv.type)));
+
+      if (existing.length === 0) {
+        await db.insert(investments).values({
+          userId,
+          type: inv.type,
+          name: inv.name,
+          amount: "0",
+          investedDate: new Date().toISOString().split("T")[0],
+          status: "active",
+        });
+      }
+    }
   }
 
   async getAllUsers(): Promise<User[]> {

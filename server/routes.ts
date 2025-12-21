@@ -42,6 +42,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/investments", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
+      await storage.ensureDefaultInvestments(userId);
       const userInvestments = await storage.getInvestmentsByUserId(userId);
       res.json(userInvestments);
     } catch (error) {
