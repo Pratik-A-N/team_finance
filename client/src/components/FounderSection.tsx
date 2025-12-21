@@ -6,9 +6,9 @@ import founderImage from "@assets/profile_pic_1766269477626.png";
 export default function FounderSection() {
   const achievements = [
     { icon: Briefcase, label: "15+ Years Experience" },
-    { icon: Users, label: "50+ Families Guided" },
+    { icon: Users, label: "100+ Families Guided" },
     { icon: Award, label: "MDRT Awardee" },
-    { icon: TrendingUp, label: "1 Cr+ AUM" },
+    { icon: TrendingUp, label: "2 Cr+ AUM" },
   ];
 
   return (
@@ -55,10 +55,10 @@ export default function FounderSection() {
 
             <div className="space-y-4 text-muted-foreground" data-testid="text-founder-bio">
               <p>
-                Sunil Ghayre is an MBA in Finance with over 15 years of experience in the financial services industry. Over the years, he has guided 50+ families in building disciplined, goal-based financial plans covering investments, insurance, and long-term wealth creation.
+                Mr. Sunil Ghayre is an MBA in Finance with over 15 years of experience in the financial services industry. Over the years, he has guided 100+ families in building disciplined, goal-based financial plans covering investments, insurance and long-term wealth creation.
               </p>
               <p>
-                He is an MDRT awardee with Axis Max Life Insurance, reflecting consistent excellence in client advisory and ethical practices. Currently managing an AUM of 1 Cr+, Sunil focuses on simplifying personal finance and helping families achieve long-term financial stability and peace of mind.
+                He is an MDRT awardee with Axis Max Life Insurance, reflecting consistent excellence in client advisory and ethical practices. Currently managing an AUM of 2 Cr+, He focuses on simplifying personal finance and helping families achieve long-term financial stability and peace of mind.
               </p>
             </div>
 
