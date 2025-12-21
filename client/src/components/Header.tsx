@@ -81,7 +81,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <img
               src={logoImage}
               alt="Team Finance Logo"
-              className="h-12 w-auto"
+              className="h-16 w-auto"
             />
           </a>
 
@@ -252,7 +252,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                   <img
                     src={logoImage}
                     alt="Team Finance Logo"
-                    className="h-10 w-auto"
+                    className="h-14 w-auto"
                   />
                   <Button
                     variant="ghost"
