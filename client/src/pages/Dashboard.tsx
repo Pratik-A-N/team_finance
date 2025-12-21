@@ -121,6 +121,14 @@ export default function Dashboard() {
 
   const hasInvestments = investments.length > 0;
 
+  const defaultCategories = [
+    { type: "mutual-funds", name: "Mutual Funds", value: 0, color: COLORS["mutual-funds"] },
+    { type: "term-insurance", name: "Term Insurance", value: 0, color: COLORS["term-insurance"] },
+    { type: "health-insurance", name: "Health Insurance", value: 0, color: COLORS["health-insurance"] },
+  ];
+
+  const displayData = hasInvestments ? chartData : defaultCategories;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -146,95 +154,80 @@ export default function Dashboard() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {hasInvestments ? (
-                <div className="flex flex-col md:flex-row items-center gap-8">
-                  <div className="relative w-64 h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={chartData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={70}
-                          outerRadius={100}
-                          paddingAngle={2}
-                          dataKey="value"
-                        >
-                          {chartData.map((entry, index) => (
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="relative w-64 h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={totalInvestment > 0 ? displayData : [{ name: "No Data", value: 1, color: "#E5E7EB" }]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={70}
+                        outerRadius={100}
+                        paddingAngle={0}
+                        dataKey="value"
+                      >
+                        {totalInvestment > 0 ? (
+                          displayData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <p className="text-sm text-muted-foreground">Total</p>
-                      <p className="text-2xl font-bold" data-testid="text-total-investment">
-                        {formatCurrency(totalInvestment)}
-                      </p>
-                    </div>
+                          ))
+                        ) : (
+                          <Cell fill="#E5E7EB" />
+                        )}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <p className="text-sm text-muted-foreground">Total</p>
+                    <p className="text-2xl font-bold" data-testid="text-total-investment">
+                      {formatCurrency(totalInvestment)}
+                    </p>
                   </div>
-                  <div className="flex-1 space-y-4">
-                    {chartData.map((item) => {
-                      const Icon = ICONS[item.type as keyof typeof ICONS] || TrendingUp;
-                      const percentage = totalInvestment > 0 
-                        ? ((item.value / totalInvestment) * 100).toFixed(1) 
-                        : "0";
-                      return (
+                </div>
+                <div className="flex-1 space-y-4">
+                  {defaultCategories.map((item) => {
+                    const Icon = ICONS[item.type as keyof typeof ICONS] || TrendingUp;
+                    const actualValue = investmentsByType[item.type] || 0;
+                    const percentage = totalInvestment > 0 
+                      ? ((actualValue / totalInvestment) * 100).toFixed(1) 
+                      : "0";
+                    return (
+                      <div
+                        key={item.type}
+                        className="flex items-center gap-4"
+                        data-testid={`investment-category-${item.type}`}
+                      >
                         <div
-                          key={item.type}
-                          className="flex items-center gap-4"
-                          data-testid={`investment-category-${item.type}`}
+                          className="w-10 h-10 rounded-md flex items-center justify-center"
+                          style={{ backgroundColor: `${item.color}20` }}
                         >
-                          <div
-                            className="w-10 h-10 rounded-md flex items-center justify-center"
-                            style={{ backgroundColor: `${item.color}20` }}
-                          >
-                            <Icon className="w-5 h-5" style={{ color: item.color }} />
+                          <Icon className="w-5 h-5" style={{ color: item.color }} />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="font-medium">{item.name}</p>
+                            <p className="font-semibold">{formatCurrency(actualValue)}</p>
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between gap-2">
-                              <p className="font-medium">{item.name}</p>
-                              <p className="font-semibold">{formatCurrency(item.value)}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                              <div
+                                className="h-full rounded-full transition-all"
+                                style={{
+                                  width: `${percentage}%`,
+                                  backgroundColor: item.color,
+                                }}
+                              />
                             </div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                <div
-                                  className="h-full rounded-full transition-all"
-                                  style={{
-                                    width: `${percentage}%`,
-                                    backgroundColor: item.color,
-                                  }}
-                                />
-                              </div>
-                              <span className="text-sm text-muted-foreground w-12 text-right">
-                                {percentage}%
-                              </span>
-                            </div>
+                            <span className="text-sm text-muted-foreground w-12 text-right">
+                              {percentage}%
+                            </span>
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-4">
-                    <TrendingUp className="w-10 h-10 text-muted-foreground" />
-                  </div>
-                  <h3 className="text-lg font-medium mb-2">No investments yet</h3>
-                  <p className="text-muted-foreground mb-6 max-w-md">
-                    Start your investment journey today and watch your wealth grow over time.
-                  </p>
-                  <Button
-                    className="gap-2"
-                    onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
-                    data-testid="button-start-investing"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Start Investing
-                  </Button>
-                </div>
-              )}
+              </div>
             </CardContent>
           </Card>
 
