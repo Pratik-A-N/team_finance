@@ -638,15 +638,15 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {hasInvestments && (
-          <Card className="mt-6" data-testid="card-recent-investments">
-            <CardHeader>
-              <CardTitle>Your Investments</CardTitle>
-              <CardDescription>All your investment entries</CardDescription>
-            </CardHeader>
-            <CardContent>
+        <Card className="mt-6" data-testid="card-recent-investments">
+          <CardHeader>
+            <CardTitle>Your Investments</CardTitle>
+            <CardDescription>All your investment entries</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {totalInvestment > 0 ? (
               <div className="space-y-4">
-                {investments.map((investment) => {
+                {investments.filter(inv => parseFloat(inv.amount) > 0).map((investment) => {
                   const Icon = ICONS[investment.type as keyof typeof ICONS] || TrendingUp;
                   const color = COLORS[investment.type as keyof typeof COLORS] || "#6B7280";
                   const amount = parseFloat(investment.amount) || 0;
@@ -672,19 +672,35 @@ export default function Dashboard() {
                         <p className="font-semibold">
                           {formatCurrency(amount)}
                         </p>
-                        {amount > 0 && (
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(investment.investedDate).toLocaleDateString("en-IN")}
-                          </p>
-                        )}
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(investment.investedDate).toLocaleDateString("en-IN")}
+                        </p>
                       </div>
                     </div>
                   );
                 })}
               </div>
-            </CardContent>
-          </Card>
-        )}
+            ) : (
+              <div className="flex flex-col items-center justify-center py-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                  <TrendingUp className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-medium mb-2">No investments yet</h3>
+                <p className="text-muted-foreground mb-4 max-w-md">
+                  Start your investment journey today and watch your wealth grow.
+                </p>
+                <Button
+                  className="gap-2"
+                  onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
+                  data-testid="button-start-investing"
+                >
+                  <Plus className="w-4 h-4" />
+                  Start Investing
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </main>
       <Footer />
     </div>
