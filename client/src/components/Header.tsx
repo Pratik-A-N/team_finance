@@ -59,9 +59,7 @@ export default function Header({ onContactClick }: HeaderProps) {
     setMobileOpen(false);
     const sectionId = id.replace("#", "");
     
-    if (location !== "/") {
-      setLocation(`/?section=${sectionId}`);
-    } else {
+    if (location === "/" || location === "/landing") {
       const element = document.getElementById(sectionId);
       if (element) {
         const headerOffset = 80;
@@ -73,14 +71,16 @@ export default function Header({ onContactClick }: HeaderProps) {
           behavior: "smooth"
         });
       }
+    } else {
+      setLocation(`/landing?section=${sectionId}`);
     }
   };
 
   const navigateHome = () => {
-    if (location !== "/") {
-      setLocation("/");
-    } else {
+    if (location === "/" || location === "/landing") {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setLocation("/landing");
     }
   };
 

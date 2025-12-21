@@ -54,9 +54,7 @@ export default function Footer() {
     if (href === "#") return;
     const sectionId = href.replace("#", "");
     
-    if (location !== "/") {
-      setLocation(`/?section=${sectionId}`);
-    } else {
+    if (location === "/" || location === "/landing") {
       const element = document.getElementById(sectionId);
       if (element) {
         const headerOffset = 80;
@@ -68,14 +66,16 @@ export default function Footer() {
           behavior: "smooth"
         });
       }
+    } else {
+      setLocation(`/landing?section=${sectionId}`);
     }
   };
 
   const navigateHome = () => {
-    if (location !== "/") {
-      setLocation("/");
-    } else {
+    if (location === "/" || location === "/landing") {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setLocation("/landing");
     }
   };
 

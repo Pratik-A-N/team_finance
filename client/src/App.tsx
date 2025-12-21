@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Profile from "@/pages/Profile";
 import Dashboard from "@/pages/Dashboard";
+import LandingPage from "@/pages/LandingPage";
 import OnboardingModal from "@/components/OnboardingModal";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -15,6 +16,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/landing" component={LandingPage} />
       <Route path="/profile" component={Profile} />
       <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
