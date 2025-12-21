@@ -9,9 +9,9 @@ interface HeroSectionProps {
 }
 
 const highlights = [
-  "SEBI Registered",
+  "MDRT Awardee by Axis Bank",
   "IRDAI Licensed",
-  "10,000+ Clients",
+  "100+ Clients",
 ];
 
 export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionProps) {

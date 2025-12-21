@@ -2,9 +2,9 @@ import { Shield, Award, Users, Clock } from "lucide-react";
 
 const trustItems = [
   {
-    icon: Shield,
-    label: "SEBI Registered",
-    description: "Investment Advisor",
+    icon: Award,
+    label: "MDRT Awardee",
+    description: "by Axis Bank",
   },
   {
     icon: Award,
