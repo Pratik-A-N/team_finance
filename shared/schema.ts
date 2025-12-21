@@ -84,5 +84,12 @@ export const insertInvestmentSchema = createInsertSchema(investments).omit({
   createdAt: true,
 });
 
+export const updateInvestmentSchema = createInsertSchema(investments).pick({
+  amount: true,
+  investedDate: true,
+  name: true,
+}).partial();
+
 export type InsertInvestment = z.infer<typeof insertInvestmentSchema>;
+export type UpdateInvestment = z.infer<typeof updateInvestmentSchema>;
 export type Investment = typeof investments.$inferSelect;

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
-import { updateUserProfileSchema, insertInvestmentSchema } from "@shared/schema";
+import { updateUserProfileSchema, insertInvestmentSchema, updateInvestmentSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
@@ -67,6 +67,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid investment data", errors: error.errors });
       }
       res.status(500).json({ message: "Failed to create investment" });
+    }
+  });
+
+  // Update investment
+  app.patch("/api/investments/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const investmentId = req.params.id;
+      const validatedData = updateInvestmentSchema.parse(req.body);
+      const investment = await storage.updateInvestment(investmentId, userId, validatedData);
+      if (!investment) {
+        return res.status(404).json({ message: "Investment not found" });
+      }
+      res.json(investment);
+    } catch (error: any) {
+      console.error("Error updating investment:", error);
+      if (error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid investment data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update investment" });
     }
   });
 

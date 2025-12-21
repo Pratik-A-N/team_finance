@@ -63,6 +63,15 @@ export class DatabaseStorage implements IStorage {
     return created;
   }
 
+  async updateInvestment(id: string, userId: string, data: { amount?: string; investedDate?: string; name?: string }): Promise<Investment | undefined> {
+    const [updated] = await db
+      .update(investments)
+      .set(data)
+      .where(and(eq(investments.id, id), eq(investments.userId, userId)))
+      .returning();
+    return updated;
+  }
+
   async ensureDefaultInvestments(userId: string): Promise<void> {
     const defaultInvestments = [
       { type: "mutual-funds", name: "Mutual Fund SIP" },
