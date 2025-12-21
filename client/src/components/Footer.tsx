@@ -3,6 +3,7 @@ import { SiLinkedin, SiX, SiYoutube, SiFacebook } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { useLocation } from "wouter";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
 
 const services = [
@@ -37,6 +38,7 @@ const social = [
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [location, setLocation] = useLocation();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,18 +50,47 @@ export default function Footer() {
     }
   };
 
+  const navigateToSection = (href: string) => {
+    if (href === "#") return;
+    const sectionId = href.replace("#", "");
+    
+    if (location !== "/") {
+      setLocation(`/?section=${sectionId}`);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
+
+  const navigateHome = () => {
+    if (location !== "/") {
+      setLocation("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="bg-card border-t">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           <div className="lg:col-span-2">
-            <a href="#" className="flex items-center gap-2 mb-4">
+            <button onClick={navigateHome} className="flex items-center gap-2 mb-4">
               <img
                 src={logoImage}
                 alt="Team Finance Logo"
                 className="h-14 w-auto"
               />
-            </a>
+            </button>
             <p className="text-muted-foreground mb-6 max-w-sm">
               Growing Your Wealth. Your trusted partner for personalized financial
               advice. Helping Indian families build wealth and secure their future.
@@ -128,13 +159,13 @@ export default function Footer() {
             <ul className="space-y-3">
               {services.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                  <button
+                    onClick={() => navigateToSection(item.href)}
+                    className="text-sm text-muted-foreground hover:text-foreground text-left"
                     data-testid={`footer-link-${item.name.toLowerCase().replace(" ", "-")}`}
                   >
                     {item.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -145,12 +176,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {company.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                  <button
+                    onClick={() => navigateToSection(item.href)}
+                    className="text-sm text-muted-foreground hover:text-foreground text-left"
                   >
                     {item.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -158,12 +189,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {resources.map((item) => (
                 <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground"
+                  <button
+                    onClick={() => navigateToSection(item.href)}
+                    className="text-sm text-muted-foreground hover:text-foreground text-left"
                   >
                     {item.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>

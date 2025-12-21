@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
@@ -20,6 +20,27 @@ import { Loader2 } from "lucide-react";
 export default function Home() {
   const [consultationOpen, setConsultationOpen] = useState(false);
   const { isAuthenticated, isLoading } = useAuth();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get("section");
+    if (section) {
+      setTimeout(() => {
+        const element = document.getElementById(section);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+        window.history.replaceState({}, "", "/");
+      }, 100);
+    }
+  }, []);
 
   const scrollToServices = () => {
     const element = document.getElementById("services");

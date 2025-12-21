@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -42,6 +42,7 @@ interface HeaderProps {
 
 export default function Header({ onContactClick }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [location, setLocation] = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth();
 
   const getInitials = () => {
@@ -54,27 +55,41 @@ export default function Header({ onContactClick }: HeaderProps) {
     return "U";
   };
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id.replace("#", ""));
-    if (element) {
-      const headerOffset = 20;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
+  const navigateToSection = (id: string) => {
     setMobileOpen(false);
+    const sectionId = id.replace("#", "");
+    
+    if (location !== "/") {
+      setLocation(`/?section=${sectionId}`);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
+
+  const navigateHome = () => {
+    if (location !== "/") {
+      setLocation("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <a
-            href="#"
+          <button
+            onClick={navigateHome}
             className="flex items-center gap-2"
             data-testid="link-home"
           >
@@ -83,7 +98,7 @@ export default function Header({ onContactClick }: HeaderProps) {
               alt="Team Finance Logo"
               className="h-12 w-auto"
             />
-          </a>
+          </button>
 
           <nav className="hidden lg:flex items-center gap-1">
             <DropdownMenu>
@@ -115,7 +130,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                   <DropdownMenuItem
                     key={service.title}
                     className="flex items-start gap-3 p-3 cursor-pointer"
-                    onClick={() => scrollToSection(service.href)}
+                    onClick={() => navigateToSection(service.href)}
                     data-testid={`nav-${service.title.toLowerCase().replace(" ", "-")}`}
                   >
                     <service.icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
@@ -134,7 +149,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => scrollToSection("#about")}
+              onClick={() => navigateToSection("#about")}
               data-testid="nav-about"
             >
               About Us
@@ -142,7 +157,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => scrollToSection("#testimonials")}
+              onClick={() => navigateToSection("#testimonials")}
               data-testid="nav-testimonials"
             >
               Testimonials
@@ -150,7 +165,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => scrollToSection("#calculator")}
+              onClick={() => navigateToSection("#calculator")}
               data-testid="nav-calculator"
             >
               Calculator
@@ -158,7 +173,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => scrollToSection("#faq")}
+              onClick={() => navigateToSection("#faq")}
               data-testid="nav-faq"
             >
               FAQ
@@ -272,7 +287,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                       href={service.href}
                       onClick={(e) => {
                         e.preventDefault();
-                        scrollToSection(service.href);
+                        navigateToSection(service.href);
                       }}
                       className="flex items-center gap-3 rounded-md p-3 hover-elevate"
                       data-testid={`mobile-nav-${service.title.toLowerCase().replace(" ", "-")}`}
@@ -286,7 +301,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     href="#about"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection("#about");
+                      navigateToSection("#about");
                     }}
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-about"
@@ -297,7 +312,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     href="#testimonials"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection("#testimonials");
+                      navigateToSection("#testimonials");
                     }}
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-testimonials"
@@ -308,7 +323,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     href="#calculator"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection("#calculator");
+                      navigateToSection("#calculator");
                     }}
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-calculator"
@@ -319,7 +334,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                     href="#faq"
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToSection("#faq");
+                      navigateToSection("#faq");
                     }}
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-faq"
