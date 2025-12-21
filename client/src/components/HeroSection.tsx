@@ -42,7 +42,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight font-serif">
-            Growing Your Future
+            Growing Your Wealth
           </h1>
           
           <p className="text-2xl md:text-3xl text-secondary font-semibold mb-6">

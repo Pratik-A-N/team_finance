@@ -61,7 +61,7 @@ export default function Footer() {
               />
             </a>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Growing Your Future. Your trusted partner for personalized financial
+              Growing Your Wealth. Your trusted partner for personalized financial
               advice. Helping Indian families build wealth and secure their future.
             </p>
 
