@@ -79,7 +79,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
             <p className="text-white/70 text-sm mb-4">Trusted by families across India</p>
             <div className="grid grid-cols-3 gap-8">
               <div>
-                <p className="text-3xl md:text-4xl font-bold text-white">10K+</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">100+</p>
                 <p className="text-white/70 text-sm">Happy Clients</p>
               </div>
               <div>

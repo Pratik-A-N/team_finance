@@ -13,7 +13,7 @@ const trustItems = [
   },
   {
     icon: Users,
-    label: "10,000+",
+    label: "100+",
     description: "Families Served",
   },
   {
