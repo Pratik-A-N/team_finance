@@ -282,7 +282,7 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Total Investments</span>
-                    <span className="font-semibold">{investments.length}</span>
+                    <span className="font-semibold">{investments.filter(inv => parseFloat(inv.amount) > 0).length}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Total Value</span>
@@ -292,7 +292,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">Categories</span>
-                    <span className="font-semibold">{Object.keys(investmentsByType).length}</span>
+                    <span className="font-semibold">{Object.values(investmentsByType).filter(val => val > 0).length}</span>
                   </div>
                 </div>
               </CardContent>
@@ -645,50 +645,58 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {hasInvestments && (
-          <Card className="mt-6" data-testid="card-recent-investments">
-            <CardHeader>
-              <CardTitle>Recent Investments</CardTitle>
-              <CardDescription>Your latest investment transactions</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {investments.slice(0, 5).map((investment) => {
-                  const Icon = ICONS[investment.type as keyof typeof ICONS] || TrendingUp;
-                  const color = COLORS[investment.type as keyof typeof COLORS] || "#6B7280";
-                  return (
-                    <div
-                      key={investment.id}
-                      className="flex items-center gap-4 p-3 rounded-md bg-muted/50"
-                      data-testid={`investment-item-${investment.id}`}
-                    >
+        {(() => {
+          const nonZeroInvestments = investments
+            .filter(inv => parseFloat(inv.amount) > 0)
+            .sort((a, b) => new Date(b.investedDate).getTime() - new Date(a.investedDate).getTime());
+          
+          if (nonZeroInvestments.length === 0) return null;
+          
+          return (
+            <Card className="mt-6" data-testid="card-recent-investments">
+              <CardHeader>
+                <CardTitle>Recent Investments</CardTitle>
+                <CardDescription>Your latest investment transactions</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {nonZeroInvestments.slice(0, 5).map((investment) => {
+                    const Icon = ICONS[investment.type as keyof typeof ICONS] || TrendingUp;
+                    const color = COLORS[investment.type as keyof typeof COLORS] || "#6B7280";
+                    return (
                       <div
-                        className="w-10 h-10 rounded-md flex items-center justify-center"
-                        style={{ backgroundColor: `${color}20` }}
+                        key={investment.id}
+                        className="flex items-center gap-4 p-3 rounded-md bg-muted/50"
+                        data-testid={`investment-item-${investment.id}`}
                       >
-                        <Icon className="w-5 h-5" style={{ color }} />
+                        <div
+                          className="w-10 h-10 rounded-md flex items-center justify-center"
+                          style={{ backgroundColor: `${color}20` }}
+                        >
+                          <Icon className="w-5 h-5" style={{ color }} />
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-medium">{investment.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {LABELS[investment.type as keyof typeof LABELS]}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold">
+                            {formatCurrency(parseFloat(investment.amount))}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(investment.investedDate).toLocaleDateString("en-IN")}
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-medium">{investment.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {LABELS[investment.type as keyof typeof LABELS]}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-semibold">
-                          {formatCurrency(parseFloat(investment.amount))}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {new Date(investment.investedDate).toLocaleDateString("en-IN")}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
       </main>
       <Footer />
     </div>

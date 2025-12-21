@@ -82,7 +82,7 @@ export class DatabaseStorage implements IStorage {
           type: inv.type,
           name: inv.name,
           amount: "0",
-          investedDate: new Date().toISOString().split("T")[0],
+          investedDate: "1970-01-01",
           status: "active",
         });
       }
