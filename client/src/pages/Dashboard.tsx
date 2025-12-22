@@ -580,14 +580,23 @@ export default function Dashboard() {
                       <p className="text-sm text-muted-foreground mt-1">
                         Start a monthly SIP of 10-15% of your income for long-term wealth creation.
                       </p>
-                      <Button
-                        size="sm"
-                        className="mt-3"
-                        onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
-                        data-testid="button-recommended-sip"
-                      >
-                        Start SIP
-                      </Button>
+                      <div className="flex gap-2 mt-3 flex-wrap">
+                        <Button
+                          size="sm"
+                          onClick={() => window.open("http://p.njw.bz/41983", "_blank")}
+                          data-testid="button-recommended-sip"
+                        >
+                          Start SIP
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => window.open("https://www.njmutualfund.com/calculator.php", "_blank")}
+                          data-testid="button-sip-calculator"
+                        >
+                          SIP Calculator
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
