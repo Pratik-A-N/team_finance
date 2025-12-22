@@ -1,39 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, Quote } from "lucide-react";
-import testimonial1 from "@assets/generated_images/indian_businessman_headshot.png";
-import testimonial2 from "@assets/generated_images/indian_businesswoman_headshot.png";
-import testimonial3 from "@assets/generated_images/young_indian_man_headshot.png";
+import rajanMokashiImage from "@assets/Screenshot_2025-12-22_224334-removebg-preview_1766423680713.png";
 import familyImage from "@assets/generated_images/happy_indian_family_home.png";
 
-// todo: remove mock functionality
 const testimonials = [
   {
     id: 1,
-    name: "Rajesh Sharma",
+    name: "Rajan Mokashi",
     location: "Mumbai",
     profession: "Business Owner",
-    image: testimonial1,
+    image: rajanMokashiImage,
     rating: 5,
-    quote: "Team Finance helped me plan my retirement and secure my children's education. Their personalized approach and transparent fees made all the difference.",
-  },
-  {
-    id: 2,
-    name: "Priya Mehta",
-    location: "Bangalore",
-    profession: "IT Professional",
-    image: testimonial2,
-    rating: 5,
-    quote: "The team guided me through my first mutual fund investments. Now I have a well-diversified portfolio that's growing steadily. Highly recommended!",
-  },
-  {
-    id: 3,
-    name: "Amit Patel",
-    location: "Delhi",
-    profession: "Doctor",
-    image: testimonial3,
-    rating: 5,
-    quote: "Getting the right term and health insurance was crucial for my family. Team Finance compared multiple options and found the perfect coverage for us.",
+    quote: "We are very delighted to associate with Team Financial Services. Mr. Sunil Ghayre has complete knowledge of long term investment be it Protection (insurance), wealth creation, and health insurance. They have worked out complete solution for our finances and taken out all our worries about the same. We highly recommend Team Financial Services as complete personal Financial Solution provider.",
   },
 ];
 
@@ -58,7 +37,7 @@ export default function Testimonials() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-white">
-                <p className="text-lg font-medium">Join 10,000+ families</p>
+                <p className="text-lg font-medium">Join 100+ families</p>
                 <p className="text-white/80 text-sm">
                   who trust Team Finance for their financial planning
                 </p>
