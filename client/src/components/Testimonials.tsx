@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star, Quote } from "lucide-react";
 import rajanMokashiImage from "@assets/Screenshot_2025-12-22_224334-removebg-preview_1766423680713.png";
+import srivatsonImage from "@assets/profile_2_1766423949651.png";
 import familyImage from "@assets/generated_images/happy_indian_family_home.png";
 
 const testimonials = [
@@ -13,6 +14,15 @@ const testimonials = [
     image: rajanMokashiImage,
     rating: 5,
     quote: "We are very delighted to associate with Team Financial Services. Mr. Sunil Ghayre has complete knowledge of long term investment be it Protection (insurance), wealth creation, and health insurance. They have worked out complete solution for our finances and taken out all our worries about the same. We highly recommend Team Financial Services as complete personal Financial Solution provider.",
+  },
+  {
+    id: 2,
+    name: "Mr. Srivatson",
+    location: "Mumbai",
+    profession: "Retired Manager",
+    image: srivatsonImage,
+    rating: 5,
+    quote: "Team Financial Services gave us clear and practical guidance for long-term investments, insurance, and wealth planning. Mr. Sunil Ghayre's understanding is deep and reassuring. Our finances finally feel organised and stress-free.",
   },
 ];
 
