@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearch } from "wouter";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
@@ -16,9 +17,10 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function LandingPage() {
   const [consultationOpen, setConsultationOpen] = useState(false);
+  const searchString = useSearch();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchString);
     const section = params.get("section");
     if (section) {
       setTimeout(() => {
@@ -36,7 +38,7 @@ export default function LandingPage() {
         window.history.replaceState({}, "", "/landing");
       }, 100);
     }
-  }, []);
+  }, [searchString]);
 
   const scrollToServices = () => {
     const element = document.getElementById("services");

@@ -112,11 +112,11 @@ export default function Footer() {
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="w-4 h-4 text-muted-foreground" />
                 <a
-                  href="mailto:hello@teamfinance.in"
+                  href="mailto:info@theteamfinance.com"
                   className="hover:text-primary"
                   data-testid="footer-email"
                 >
-                  hello@teamfinance.in
+                  info@theteamfinance.com
                 </a>
               </div>
               <div className="flex items-start gap-3 text-sm">
