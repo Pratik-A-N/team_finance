@@ -94,7 +94,7 @@ export default function AuthPage() {
         title: "Account created!",
         description: "Welcome to Team Finance.",
       });
-      setLocation("/profile");
+      setLocation("/dashboard");
     },
     onError: (error: Error) => {
       toast({
