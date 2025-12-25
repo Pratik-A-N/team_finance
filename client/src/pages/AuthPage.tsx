@@ -135,7 +135,7 @@ export default function AuthPage() {
         </CardHeader>
         <CardContent>
           {isLogin ? (
-            <Form {...loginForm}>
+            <Form {...loginForm} key="login-form">
               <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
                 <FormField
                   control={loginForm.control}
@@ -211,7 +211,7 @@ export default function AuthPage() {
               </form>
             </Form>
           ) : (
-            <Form {...registerForm}>
+            <Form {...registerForm} key="register-form">
               <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
                 <FormField
                   control={registerForm.control}
