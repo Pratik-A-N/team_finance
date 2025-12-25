@@ -224,11 +224,16 @@ export default function Header({ onContactClick }: HeaderProps) {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <a href="/api/logout" className="flex items-center gap-2" data-testid="link-logout">
-                        <LogOut className="w-4 h-4" />
-                        Logout
-                      </a>
+                    <DropdownMenuItem 
+                      className="flex items-center gap-2 cursor-pointer" 
+                      onClick={async () => {
+                        await fetch('/api/auth/logout', { method: 'POST' });
+                        window.location.href = '/';
+                      }}
+                      data-testid="link-logout"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -236,7 +241,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => window.location.href = '/api/login'}
+                  onClick={() => setLocation('/login')}
                   data-testid="button-login"
                 >
                   Login
@@ -393,7 +398,10 @@ export default function Header({ onContactClick }: HeaderProps) {
                         <Button
                           variant="ghost"
                           className="gap-2 w-full"
-                          onClick={() => window.location.href = '/api/logout'}
+                          onClick={async () => {
+                            await fetch('/api/auth/logout', { method: 'POST' });
+                            window.location.href = '/';
+                          }}
                           data-testid="mobile-link-logout"
                         >
                           <LogOut className="w-4 h-4" />
@@ -404,7 +412,10 @@ export default function Header({ onContactClick }: HeaderProps) {
                       <Button
                         variant="outline"
                         className="gap-2 w-full"
-                        onClick={() => window.location.href = '/api/login'}
+                        onClick={() => {
+                          setMobileOpen(false);
+                          setLocation('/login');
+                        }}
                         data-testid="mobile-button-login"
                       >
                         <User className="w-4 h-4" />
