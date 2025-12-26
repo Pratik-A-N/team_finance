@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Phone, MessageCircle, Calendar } from "lucide-react";
-import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766747848211.jpeg";
+import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766748068781.png";
 
 interface ContactCTAProps {
   onScheduleCall?: () => void;

@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, Save, Loader2 } from "lucide-react";
-import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766747848211.jpeg";
+import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766748068781.png";
 
 const profileFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),

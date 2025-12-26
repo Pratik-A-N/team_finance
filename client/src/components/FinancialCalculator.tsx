@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { TrendingUp, Shield, Heart, Calculator, ArrowRight, RefreshCw, ExternalLink } from "lucide-react";
-import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766747848211.jpeg";
+import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766748068781.png";
 
 const MUTUAL_FUND_INVEST_LINK = "http://p.njw.bz/41983";
 
