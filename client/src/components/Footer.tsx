@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin } from "lucide-react";
-import { SiLinkedin, SiX, SiYoutube, SiFacebook } from "react-icons/si";
+import { SiLinkedin, SiInstagram } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -29,10 +29,8 @@ const resources = [
 ];
 
 const social = [
-  { name: "LinkedIn", icon: SiLinkedin, href: "#" },
-  { name: "Twitter", icon: SiX, href: "#" },
-  { name: "YouTube", icon: SiYoutube, href: "#" },
-  { name: "Facebook", icon: SiFacebook, href: "#" },
+  { name: "LinkedIn", icon: SiLinkedin, href: "https://www.linkedin.com/company/team-financial-services/" },
+  { name: "Instagram", icon: SiInstagram, href: "https://www.instagram.com/team.financial_services?igsh=MjZoM3AzcHM2NDlu" },
 ];
 
 export default function Footer() {
@@ -149,7 +147,7 @@ export default function Footer() {
                   asChild
                   data-testid={`footer-social-${item.name.toLowerCase()}`}
                 >
-                  <a href={item.href} aria-label={item.name}>
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.name}>
                     <item.icon className="w-4 h-4" />
                   </a>
                 </Button>
