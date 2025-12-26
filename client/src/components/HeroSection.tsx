@@ -141,7 +141,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
             <img
               src={mdrtCertificate}
               alt="MDRT Award Certificate"
-              className="max-w-full h-auto rotate-180"
+              className="max-w-full h-auto -rotate-90"
               style={{ maxHeight: "70vh" }}
             />
           </div>
