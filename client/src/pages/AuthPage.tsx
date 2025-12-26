@@ -19,6 +19,9 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import logoImage from "@assets/Adobe_Express_-_file_1765473251320.png";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ConsultationModal from "@/components/ConsultationModal";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -41,6 +44,7 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConsultation, setShowConsultation] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
@@ -114,26 +118,28 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 px-4 py-12">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <img
-              src={logoImage}
-              alt="Team Finance Logo"
-              className="h-16 w-auto"
-            />
-          </div>
-          <CardTitle className="text-2xl">
-            {isLogin ? "Welcome Back" : "Create Account"}
-          </CardTitle>
-          <CardDescription>
-            {isLogin
-              ? "Sign in to access your financial dashboard"
-              : "Join Team Finance to start your financial journey"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+    <div className="min-h-screen flex flex-col">
+      <Header onContactClick={() => setShowConsultation(true)} />
+      <div className="flex-1 flex items-center justify-center bg-muted/30 px-4 py-12">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <img
+                src={logoImage}
+                alt="Team Finance Logo"
+                className="h-16 w-auto"
+              />
+            </div>
+            <CardTitle className="text-2xl">
+              {isLogin ? "Welcome Back" : "Create Account"}
+            </CardTitle>
+            <CardDescription>
+              {isLogin
+                ? "Sign in to access your financial dashboard"
+                : "Join Team Finance to start your financial journey"}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
           {isLogin ? (
             <Form {...loginForm} key="login-form">
               <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
@@ -340,8 +346,14 @@ export default function AuthPage() {
               </Button>
             </p>
           </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
+      <Footer />
+      <ConsultationModal 
+        open={showConsultation} 
+        onOpenChange={setShowConsultation} 
+      />
     </div>
   );
 }
