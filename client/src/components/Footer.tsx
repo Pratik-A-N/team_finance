@@ -241,7 +241,7 @@ export default function Footer() {
               © 2024 Team Finance. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground max-w-2xl">
-              SEBI Registration No: INA000012345 | IRDAI License No: 123456789.
+              SEBI Registration No: NISM-202400176239 | IRDAI License No: MAX54783C.
               Mutual Fund investments are subject to market risks. Please read
               all scheme related documents carefully before investing.
             </p>

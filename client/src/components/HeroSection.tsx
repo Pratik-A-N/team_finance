@@ -155,7 +155,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
       <Dialog open={nismOpen} onOpenChange={setNismOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>IRDAI License Certificate</DialogTitle>
+            <DialogTitle>IRDAI License Certificate (MAX54783C)</DialogTitle>
           </DialogHeader>
           <div className="flex justify-center">
             <img
@@ -171,7 +171,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
       <Dialog open={sebiOpen} onOpenChange={setSebiOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>SEBI Registration Certificate</DialogTitle>
+            <DialogTitle>SEBI Registration Certificate (NISM-202400176239)</DialogTitle>
           </DialogHeader>
           <div className="flex justify-center">
             <img
