@@ -7,25 +7,22 @@ import { useLocation } from "wouter";
 import logoImage from "@assets/WhatsApp_Image_2025-12-26_at_16.46.12_1766748068781.png";
 
 const services = [
-  { name: "Mutual Funds", href: "#mutual-funds" },
-  { name: "Term Insurance", href: "#term-insurance" },
-  { name: "Health Insurance", href: "#health-insurance" },
+  { name: "Mutual Funds", href: "#services" },
+  { name: "Term Insurance", href: "#services" },
+  { name: "Health Insurance", href: "#services" },
   { name: "Financial Calculator", href: "#calculator" },
-  { name: "Retirement Planning", href: "#" },
 ];
 
 const company = [
   { name: "About Us", href: "#about" },
-  { name: "Our Team", href: "#" },
-  { name: "Careers", href: "#" },
-  { name: "Contact", href: "#contact" },
+  { name: "Why Choose Us", href: "#why-choose-us" },
+  { name: "How It Works", href: "#how-it-works" },
+  { name: "Testimonials", href: "#testimonials" },
 ];
 
 const resources = [
-  { name: "Blog", href: "#" },
   { name: "FAQs", href: "#faq" },
-  { name: "Privacy Policy", href: "#" },
-  { name: "Terms of Service", href: "#" },
+  { name: "Contact Us", href: "#contact" },
 ];
 
 const social = [
@@ -52,23 +49,8 @@ export default function Footer() {
     if (href === "#") return;
     const sectionId = href.replace("#", "");
     
-    const isHomePage = location === "/" || location === "/landing";
-    
-    if (isHomePage) {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    } else {
-      window.location.href = `/landing?section=${sectionId}`;
-    }
+    // Always use window.location.href for reliable navigation
+    window.location.href = `/landing?section=${sectionId}`;
   };
 
   const navigateHome = () => {
