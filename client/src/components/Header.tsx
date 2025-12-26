@@ -263,16 +263,18 @@ export default function Header({ onContactClick }: HeaderProps) {
             </Button>
           </div>
 
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger asChild className="lg:hidden">
-              <Button
-                variant="ghost"
-                size="icon"
-                data-testid="button-mobile-menu"
-              >
-                <Menu className="w-5 h-5" />
-              </Button>
-            </SheetTrigger>
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle />
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  data-testid="button-mobile-menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
             <SheetContent side="right" className="w-full sm:w-80 overflow-y-auto">
               <div className="flex flex-col gap-6 mt-6 pb-24">
                 <div className="flex items-center justify-between">
@@ -334,10 +336,6 @@ export default function Header({ onContactClick }: HeaderProps) {
                     FAQ
                   </a>
                 </nav>
-                <div className="flex items-center justify-between py-2 border-t mt-2">
-                  <span className="text-sm text-muted-foreground">Theme</span>
-                  <ThemeToggle />
-                </div>
                 <div className="flex flex-col gap-3 mt-4">
                   {!isLoading && (
                     isAuthenticated ? (
@@ -434,7 +432,8 @@ export default function Header({ onContactClick }: HeaderProps) {
                 </div>
               </div>
             </SheetContent>
-          </Sheet>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
