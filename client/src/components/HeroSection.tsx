@@ -113,19 +113,19 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
           </div>
 
           <div className="mt-12 pt-8 border-t border-white/20">
-            <p className="text-white/70 text-sm mb-4">Trusted by families across India</p>
-            <div className="grid grid-cols-3 gap-8">
+            <p className="text-white/70 text-sm mb-6">Trusted by families across India</p>
+            <div className="flex flex-wrap justify-start gap-6 sm:gap-10 md:gap-14">
               <div>
-                <p className="text-3xl md:text-4xl font-bold text-white">100+</p>
-                <p className="text-white/70 text-sm">Happy Clients</p>
+                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">100+</p>
+                <p className="text-white/70 text-xs sm:text-sm mt-1">Happy Clients</p>
               </div>
               <div>
-                <p className="text-3xl md:text-4xl font-bold text-white">₹500Cr+</p>
-                <p className="text-white/70 text-sm">Assets Managed</p>
+                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">₹500Cr+</p>
+                <p className="text-white/70 text-xs sm:text-sm mt-1">Assets Managed</p>
               </div>
               <div>
-                <p className="text-3xl md:text-4xl font-bold text-white">15+</p>
-                <p className="text-white/70 text-sm">Years Experience</p>
+                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">15+</p>
+                <p className="text-white/70 text-xs sm:text-sm mt-1">Years Experience</p>
               </div>
             </div>
           </div>
