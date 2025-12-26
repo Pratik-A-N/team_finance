@@ -101,7 +101,7 @@ export default function Header({ onContactClick }: HeaderProps) {
             <img
               src={logoImage}
               alt="Team Finance Logo"
-              className="h-12 w-auto"
+              className="max-h-14 w-auto"
             />
           </a>
 
