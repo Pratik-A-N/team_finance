@@ -11,6 +11,13 @@ import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_17667
 
 const trustItems = [
   {
+    icon: Shield,
+    label: "SEBI Registered",
+    description: "Investment Advisor",
+    link: null,
+    showImage: false,
+  },
+  {
     icon: Award,
     label: "MDRT Awardee",
     description: "by Axis Bank",
@@ -56,7 +63,7 @@ export default function TrustBar() {
     <>
       <section className="bg-card border-y">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
             {trustItems.map((item) => {
               const content = (
                 <>

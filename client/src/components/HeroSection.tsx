@@ -18,9 +18,9 @@ interface HeroSectionProps {
 }
 
 const highlights = [
+  { text: "SEBI Registered", imageType: null },
   { text: "MDRT Awardee by Axis Bank", imageType: "mdrt" },
   { text: "IRDAI Licensed", imageType: "nism" },
-  { text: "100+ Clients", imageType: null },
 ];
 
 export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionProps) {
