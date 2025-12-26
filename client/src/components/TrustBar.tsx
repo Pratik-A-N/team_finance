@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import nismCertificate from "@assets/SUNIL_GHAYRE_NISM_VA_1766743471322.pdf";
 import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
+import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766747343287.jpeg";
 
 const trustItems = [
   {
@@ -15,14 +15,14 @@ const trustItems = [
     label: "MDRT Awardee",
     description: "by Axis Bank",
     link: null,
-    showImage: true,
+    showImage: "mdrt",
   },
   {
     icon: Award,
     label: "IRDAI Licensed",
     description: "Insurance Partner",
-    link: nismCertificate,
-    showImage: false,
+    link: null,
+    showImage: "nism",
   },
   {
     icon: Users,
@@ -42,6 +42,15 @@ const trustItems = [
 
 export default function TrustBar() {
   const [mdrtOpen, setMdrtOpen] = useState(false);
+  const [nismOpen, setNismOpen] = useState(false);
+
+  const handleClick = (imageType: string | boolean) => {
+    if (imageType === "mdrt") {
+      setMdrtOpen(true);
+    } else if (imageType === "nism") {
+      setNismOpen(true);
+    }
+  };
 
   return (
     <>
@@ -66,10 +75,7 @@ export default function TrustBar() {
                   <button
                     key={item.label}
                     type="button"
-                    onClick={() => {
-                      console.log("MDRT clicked");
-                      setMdrtOpen(true);
-                    }}
+                    onClick={() => handleClick(item.showImage)}
                     className="flex items-center gap-3 hover-elevate rounded-md p-1 -m-1 cursor-pointer text-left"
                     data-testid={`trust-item-${item.label.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
                   >
@@ -116,7 +122,23 @@ export default function TrustBar() {
             <img
               src={mdrtCertificate}
               alt="MDRT Award Certificate"
-              className="max-w-full h-auto rotate-90"
+              className="max-w-full h-auto rotate-180"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={nismOpen} onOpenChange={setNismOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>NISM Certificate - IRDAI Licensed</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={nismCertificate}
+              alt="NISM Certificate"
+              className="max-w-full h-auto"
               style={{ maxHeight: "70vh" }}
             />
           </div>

@@ -1,14 +1,24 @@
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Award, Users, TrendingUp, Briefcase } from "lucide-react";
 import founderImage from "@assets/profile_pic_1766269477626.png";
+import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
 
 export default function FounderSection() {
+  const [mdrtOpen, setMdrtOpen] = useState(false);
+
   const achievements = [
-    { icon: Briefcase, label: "15+ Years Experience" },
-    { icon: Users, label: "100+ Families Guided" },
-    { icon: Award, label: "MDRT Awardee" },
-    { icon: TrendingUp, label: "2 Cr+ AUM" },
+    { icon: Briefcase, label: "15+ Years Experience", clickable: false },
+    { icon: Users, label: "100+ Families Guided", clickable: false },
+    { icon: Award, label: "MDRT Awardee", clickable: true },
+    { icon: TrendingUp, label: "2 Cr+ AUM", clickable: false },
   ];
 
   return (
@@ -64,19 +74,53 @@ export default function FounderSection() {
 
             <div className="grid grid-cols-2 gap-4 pt-4">
               {achievements.map((achievement) => (
-                <Card key={achievement.label} className="bg-background">
-                  <CardContent className="flex items-center gap-3 p-4">
-                    <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
-                      <achievement.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <span className="text-sm font-medium">{achievement.label}</span>
-                  </CardContent>
-                </Card>
+                achievement.clickable ? (
+                  <button
+                    key={achievement.label}
+                    type="button"
+                    onClick={() => setMdrtOpen(true)}
+                    className="text-left"
+                  >
+                    <Card className="bg-background hover-elevate cursor-pointer">
+                      <CardContent className="flex items-center gap-3 p-4">
+                        <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                          <achievement.icon className="w-5 h-5 text-primary" />
+                        </div>
+                        <span className="text-sm font-medium">{achievement.label}</span>
+                      </CardContent>
+                    </Card>
+                  </button>
+                ) : (
+                  <Card key={achievement.label} className="bg-background">
+                    <CardContent className="flex items-center gap-3 p-4">
+                      <div className="w-10 h-10 rounded-md bg-primary/10 flex items-center justify-center">
+                        <achievement.icon className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium">{achievement.label}</span>
+                    </CardContent>
+                  </Card>
+                )
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      <Dialog open={mdrtOpen} onOpenChange={setMdrtOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>MDRT Award Certificate</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={mdrtCertificate}
+              alt="MDRT Award Certificate"
+              className="max-w-full h-auto rotate-180"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

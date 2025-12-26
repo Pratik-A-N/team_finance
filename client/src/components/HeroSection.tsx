@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@assets/generated_images/financial_advisor_consulting_clients.png";
-import nismCertificate from "@assets/SUNIL_GHAYRE_NISM_VA_1766743471322.pdf";
+import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
+import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766747343287.jpeg";
 
 interface HeroSectionProps {
   onGetStarted?: () => void;
@@ -10,12 +18,23 @@ interface HeroSectionProps {
 }
 
 const highlights = [
-  { text: "MDRT Awardee by Axis Bank", link: null },
-  { text: "IRDAI Licensed", link: nismCertificate },
-  { text: "100+ Clients", link: null },
+  { text: "MDRT Awardee by Axis Bank", imageType: "mdrt" },
+  { text: "IRDAI Licensed", imageType: "nism" },
+  { text: "100+ Clients", imageType: null },
 ];
 
 export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionProps) {
+  const [mdrtOpen, setMdrtOpen] = useState(false);
+  const [nismOpen, setNismOpen] = useState(false);
+
+  const handleBadgeClick = (imageType: string | null) => {
+    if (imageType === "mdrt") {
+      setMdrtOpen(true);
+    } else if (imageType === "nism") {
+      setNismOpen(true);
+    }
+  };
+
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
@@ -31,8 +50,13 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
         <div className="max-w-2xl">
           <div className="flex flex-wrap gap-2 mb-6">
             {highlights.map((item) => (
-              item.link ? (
-                <a key={item.text} href={item.link} target="_blank" rel="noopener noreferrer">
+              item.imageType ? (
+                <button
+                  key={item.text}
+                  type="button"
+                  onClick={() => handleBadgeClick(item.imageType)}
+                  className="cursor-pointer"
+                >
                   <Badge
                     variant="secondary"
                     className="bg-white/10 text-white border-white/20 backdrop-blur-sm cursor-pointer"
@@ -40,7 +64,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
                     <CheckCircle2 className="w-3 h-3 mr-1" />
                     {item.text}
                   </Badge>
-                </a>
+                </button>
               ) : (
                 <Badge
                   key={item.text}
@@ -107,6 +131,38 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
           </div>
         </div>
       </div>
+
+      <Dialog open={mdrtOpen} onOpenChange={setMdrtOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>MDRT Award Certificate</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={mdrtCertificate}
+              alt="MDRT Award Certificate"
+              className="max-w-full h-auto rotate-180"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={nismOpen} onOpenChange={setNismOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>NISM Certificate - IRDAI Licensed</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={nismCertificate}
+              alt="NISM Certificate"
+              className="max-w-full h-auto"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
