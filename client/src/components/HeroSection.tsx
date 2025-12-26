@@ -11,6 +11,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@assets/generated_images/financial_advisor_consulting_clients.png";
 import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
 import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766747343287.jpeg";
+import sebiCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766771337769.jpeg";
 
 interface HeroSectionProps {
   onGetStarted?: () => void;
@@ -18,7 +19,7 @@ interface HeroSectionProps {
 }
 
 const highlights = [
-  { text: "SEBI Registered", imageType: null },
+  { text: "SEBI Registered", imageType: "sebi" },
   { text: "MDRT Awardee by Axis Bank", imageType: "mdrt" },
   { text: "IRDAI Licensed", imageType: "nism" },
 ];
@@ -26,12 +27,15 @@ const highlights = [
 export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionProps) {
   const [mdrtOpen, setMdrtOpen] = useState(false);
   const [nismOpen, setNismOpen] = useState(false);
+  const [sebiOpen, setSebiOpen] = useState(false);
 
   const handleBadgeClick = (imageType: string | null) => {
     if (imageType === "mdrt") {
       setMdrtOpen(true);
     } else if (imageType === "nism") {
       setNismOpen(true);
+    } else if (imageType === "sebi") {
+      setSebiOpen(true);
     }
   };
 
@@ -157,6 +161,22 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
             <img
               src={nismCertificate}
               alt="NISM Certificate"
+              className="max-w-full h-auto"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={sebiOpen} onOpenChange={setSebiOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>SEBI Registration Certificate</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={sebiCertificate}
+              alt="SEBI Registration Certificate"
               className="max-w-full h-auto"
               style={{ maxHeight: "70vh" }}
             />

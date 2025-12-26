@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
 import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766747343287.jpeg";
+import sebiCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766771337769.jpeg";
 
 const trustItems = [
   {
@@ -15,7 +16,7 @@ const trustItems = [
     label: "SEBI Registered",
     description: "Investment Advisor",
     link: null,
-    showImage: false,
+    showImage: "sebi",
   },
   {
     icon: Award,
@@ -50,12 +51,15 @@ const trustItems = [
 export default function TrustBar() {
   const [mdrtOpen, setMdrtOpen] = useState(false);
   const [nismOpen, setNismOpen] = useState(false);
+  const [sebiOpen, setSebiOpen] = useState(false);
 
   const handleClick = (imageType: string | boolean) => {
     if (imageType === "mdrt") {
       setMdrtOpen(true);
     } else if (imageType === "nism") {
       setNismOpen(true);
+    } else if (imageType === "sebi") {
+      setSebiOpen(true);
     }
   };
 
@@ -145,6 +149,22 @@ export default function TrustBar() {
             <img
               src={nismCertificate}
               alt="NISM Certificate"
+              className="max-w-full h-auto"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={sebiOpen} onOpenChange={setSebiOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>SEBI Registration Certificate</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={sebiCertificate}
+              alt="SEBI Registration Certificate"
               className="max-w-full h-auto"
               style={{ maxHeight: "70vh" }}
             />
