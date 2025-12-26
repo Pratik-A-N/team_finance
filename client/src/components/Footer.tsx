@@ -220,7 +220,7 @@ export default function Footer() {
         <div className="border-t mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between gap-4">
             <p className="text-xs text-muted-foreground">
-              © 2024 Team Finance. All rights reserved.
+              © 2025 Team Finance. All rights reserved.
             </p>
             <p className="text-xs text-muted-foreground max-w-2xl">
               SEBI Registration No: NISM-202400176239 | IRDAI License No: MAX54783C.
