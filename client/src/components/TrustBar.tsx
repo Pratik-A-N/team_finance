@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
-import nismCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766747343287.jpeg";
+import irdaiCertificate from "@assets/WhatsApp_Image_2025-12-24_at_12.33.58_1766771508052.jpeg";
 import sebiCertificate from "@assets/WhatsApp_Image_2025-12-24_at_14.36.20_1766771337769.jpeg";
 
 const trustItems = [
@@ -143,13 +143,13 @@ export default function TrustBar() {
       <Dialog open={nismOpen} onOpenChange={setNismOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>NISM Certificate - IRDAI Licensed</DialogTitle>
+            <DialogTitle>IRDAI License Certificate</DialogTitle>
           </DialogHeader>
           <div className="flex justify-center">
             <img
-              src={nismCertificate}
-              alt="NISM Certificate"
-              className="max-w-full h-auto"
+              src={irdaiCertificate}
+              alt="IRDAI License Certificate"
+              className="max-w-full h-auto -rotate-90"
               style={{ maxHeight: "70vh" }}
             />
           </div>
