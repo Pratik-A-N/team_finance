@@ -93,8 +93,8 @@ export default function Header({ onContactClick }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
-          <button
-            onClick={navigateHome}
+          <a
+            href="/landing"
             className="flex items-center gap-2"
             data-testid="link-home"
           >
@@ -103,7 +103,7 @@ export default function Header({ onContactClick }: HeaderProps) {
               alt="Team Finance Logo"
               className="h-12 w-auto"
             />
-          </button>
+          </a>
 
           <nav className="hidden lg:flex items-center gap-1">
             <DropdownMenu>
@@ -135,18 +135,20 @@ export default function Header({ onContactClick }: HeaderProps) {
                   <DropdownMenuItem
                     key={service.title}
                     className="flex items-start gap-3 p-3 cursor-pointer"
-                    onClick={() => navigateToSection(service.href)}
+                    asChild
                     data-testid={`nav-${service.title.toLowerCase().replace(" ", "-")}`}
                   >
-                    <service.icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
-                    <div>
-                      <div className="text-sm font-medium">
-                        {service.title}
+                    <a href={`/landing${service.href}`}>
+                      <service.icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
+                      <div>
+                        <div className="text-sm font-medium">
+                          {service.title}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {service.description}
+                        </p>
                       </div>
-                      <p className="text-sm text-muted-foreground">
-                        {service.description}
-                      </p>
-                    </div>
+                    </a>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -154,34 +156,34 @@ export default function Header({ onContactClick }: HeaderProps) {
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => navigateToSection("#about")}
+              asChild
               data-testid="nav-about"
             >
-              About Us
+              <a href="/landing#about">About Us</a>
             </Button>
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => navigateToSection("#testimonials")}
+              asChild
               data-testid="nav-testimonials"
             >
-              Testimonials
+              <a href="/landing#testimonials">Testimonials</a>
             </Button>
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => navigateToSection("#calculator")}
+              asChild
               data-testid="nav-calculator"
             >
-              Calculator
+              <a href="/landing#calculator">Calculator</a>
             </Button>
             <Button
               variant="ghost"
               className="text-sm font-medium"
-              onClick={() => navigateToSection("#faq")}
+              asChild
               data-testid="nav-faq"
             >
-              FAQ
+              <a href="/landing#faq">FAQ</a>
             </Button>
           </nav>
 
@@ -294,11 +296,7 @@ export default function Header({ onContactClick }: HeaderProps) {
                   {services.map((service) => (
                     <a
                       key={service.title}
-                      href={service.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigateToSection(service.href);
-                      }}
+                      href={`/landing${service.href}`}
                       className="flex items-center gap-3 rounded-md p-3 hover-elevate"
                       data-testid={`mobile-nav-${service.title.toLowerCase().replace(" ", "-")}`}
                     >
@@ -308,44 +306,28 @@ export default function Header({ onContactClick }: HeaderProps) {
                   ))}
                   <div className="border-t my-2" />
                   <a
-                    href="#about"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToSection("#about");
-                    }}
+                    href="/landing#about"
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-about"
                   >
                     About Us
                   </a>
                   <a
-                    href="#testimonials"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToSection("#testimonials");
-                    }}
+                    href="/landing#testimonials"
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-testimonials"
                   >
                     Testimonials
                   </a>
                   <a
-                    href="#calculator"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToSection("#calculator");
-                    }}
+                    href="/landing#calculator"
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-calculator"
                   >
                     Calculator
                   </a>
                   <a
-                    href="#faq"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToSection("#faq");
-                    }}
+                    href="/landing#faq"
                     className="rounded-md p-3 font-medium hover-elevate"
                     data-testid="mobile-nav-faq"
                   >

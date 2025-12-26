@@ -20,11 +20,16 @@ export default function LandingPage() {
   const searchString = useSearch();
 
   useEffect(() => {
+    // Handle both URL parameter (?section=about) and hash fragment (#about)
     const params = new URLSearchParams(searchString);
     const section = params.get("section");
-    if (section) {
+    const hash = window.location.hash.replace("#", "");
+    
+    const targetSection = section || hash;
+    
+    if (targetSection) {
       setTimeout(() => {
-        const element = document.getElementById(section);
+        const element = document.getElementById(targetSection);
         if (element) {
           const headerOffset = 80;
           const elementPosition = element.getBoundingClientRect().top;
@@ -35,6 +40,7 @@ export default function LandingPage() {
             behavior: "smooth"
           });
         }
+        // Clean up URL
         window.history.replaceState({}, "", "/landing");
       }, 100);
     }
