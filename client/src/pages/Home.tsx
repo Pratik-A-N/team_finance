@@ -12,7 +12,6 @@ import FAQSection from "@/components/FAQSection";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import ConsultationModal from "@/components/ConsultationModal";
-import ThemeToggle from "@/components/ThemeToggle";
 import Dashboard from "@/pages/Dashboard";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
@@ -63,10 +62,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="fixed top-20 right-4 z-40">
-        <ThemeToggle />
-      </div>
-      
       <Header onContactClick={() => setConsultationOpen(true)} />
       
       <main>
