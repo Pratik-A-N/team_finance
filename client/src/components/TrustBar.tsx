@@ -1,5 +1,13 @@
+import { useState } from "react";
 import { Shield, Award, Users, Clock } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import nismCertificate from "@assets/SUNIL_GHAYRE_NISM_VA_1766743471322.pdf";
+import mdrtCertificate from "@assets/WhatsApp_Image_2025-12-26_at_15.32.46_1766746882621.jpeg";
 
 const trustItems = [
   {
@@ -7,28 +15,34 @@ const trustItems = [
     label: "MDRT Awardee",
     description: "by Axis Bank",
     link: null,
+    showImage: true,
   },
   {
     icon: Award,
     label: "IRDAI Licensed",
     description: "Insurance Partner",
     link: nismCertificate,
+    showImage: false,
   },
   {
     icon: Users,
     label: "100+",
     description: "Families Served",
     link: null,
+    showImage: false,
   },
   {
     icon: Clock,
     label: "15+ Years",
     description: "Industry Experience",
     link: null,
+    showImage: false,
   },
 ];
 
 export default function TrustBar() {
+  const [mdrtOpen, setMdrtOpen] = useState(false);
+
   return (
     <section className="bg-card border-y">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
@@ -45,6 +59,19 @@ export default function TrustBar() {
                 </div>
               </>
             );
+
+            if (item.showImage) {
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => setMdrtOpen(true)}
+                  className="flex items-center gap-3 hover-elevate rounded-md p-1 -m-1 cursor-pointer text-left"
+                  data-testid={`trust-item-${item.label.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
+                >
+                  {content}
+                </button>
+              );
+            }
 
             if (item.link) {
               return (
@@ -73,6 +100,22 @@ export default function TrustBar() {
           })}
         </div>
       </div>
+
+      <Dialog open={mdrtOpen} onOpenChange={setMdrtOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>MDRT Award Certificate</DialogTitle>
+          </DialogHeader>
+          <div className="flex justify-center">
+            <img
+              src={mdrtCertificate}
+              alt="MDRT Award Certificate"
+              className="max-w-full h-auto rotate-90"
+              style={{ maxHeight: "70vh" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
