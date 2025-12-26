@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import heroImage from "@assets/generated_images/financial_advisor_consulting_clients.png";
+import nismCertificate from "@assets/SUNIL_GHAYRE_NISM_VA_1766743471322.pdf";
 
 interface HeroSectionProps {
   onGetStarted?: () => void;
@@ -9,9 +10,9 @@ interface HeroSectionProps {
 }
 
 const highlights = [
-  "MDRT Awardee by Axis Bank",
-  "IRDAI Licensed",
-  "100+ Clients",
+  { text: "MDRT Awardee by Axis Bank", link: null },
+  { text: "IRDAI Licensed", link: nismCertificate },
+  { text: "100+ Clients", link: null },
 ];
 
 export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionProps) {
@@ -30,14 +31,26 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
         <div className="max-w-2xl">
           <div className="flex flex-wrap gap-2 mb-6">
             {highlights.map((item) => (
-              <Badge
-                key={item}
-                variant="secondary"
-                className="bg-white/10 text-white border-white/20 backdrop-blur-sm"
-              >
-                <CheckCircle2 className="w-3 h-3 mr-1" />
-                {item}
-              </Badge>
+              item.link ? (
+                <a key={item.text} href={item.link} target="_blank" rel="noopener noreferrer">
+                  <Badge
+                    variant="secondary"
+                    className="bg-white/10 text-white border-white/20 backdrop-blur-sm cursor-pointer"
+                  >
+                    <CheckCircle2 className="w-3 h-3 mr-1" />
+                    {item.text}
+                  </Badge>
+                </a>
+              ) : (
+                <Badge
+                  key={item.text}
+                  variant="secondary"
+                  className="bg-white/10 text-white border-white/20 backdrop-blur-sm"
+                >
+                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                  {item.text}
+                </Badge>
+              )
             ))}
           </div>
 
