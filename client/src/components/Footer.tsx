@@ -91,7 +91,7 @@ export default function Footer() {
               <img
                 src={logoImage}
                 alt="Team Finance Logo"
-                className="h-14 w-auto"
+                className="h-20 w-auto"
               />
             </button>
             <p className="text-muted-foreground mb-6 max-w-sm">

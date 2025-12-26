@@ -240,7 +240,7 @@ export default function AuthPage() {
               <img
                 src={logoImage}
                 alt="Team Finance Logo"
-                className="h-16 w-auto"
+                className="h-24 w-auto"
               />
             </div>
             <CardTitle className="text-2xl">{getTitle()}</CardTitle>

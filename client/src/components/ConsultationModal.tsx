@@ -95,7 +95,7 @@ export default function ConsultationModal({
             <img
               src={logoImage}
               alt="Team Finance"
-              className="h-10 w-auto"
+              className="h-16 w-auto"
             />
           </div>
           <DialogTitle className="font-serif">
