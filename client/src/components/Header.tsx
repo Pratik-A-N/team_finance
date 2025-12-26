@@ -59,7 +59,10 @@ export default function Header({ onContactClick }: HeaderProps) {
     setMobileOpen(false);
     const sectionId = id.replace("#", "");
     
-    if (location === "/" || location === "/landing") {
+    // Check if we're on a page that has these sections
+    const isHomePage = location === "/" || location === "/landing";
+    
+    if (isHomePage) {
       const element = document.getElementById(sectionId);
       if (element) {
         const headerOffset = 80;
@@ -72,15 +75,17 @@ export default function Header({ onContactClick }: HeaderProps) {
         });
       }
     } else {
-      setLocation(`/landing?section=${sectionId}`);
+      // Navigate to landing page with section parameter
+      window.location.href = `/landing?section=${sectionId}`;
     }
   };
 
   const navigateHome = () => {
-    if (location === "/" || location === "/landing") {
+    const isHomePage = location === "/" || location === "/landing";
+    if (isHomePage) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      setLocation("/landing");
+      window.location.href = "/landing";
     }
   };
 
