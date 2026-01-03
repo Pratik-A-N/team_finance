@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: teamfin
+      POSTGRES_PASSWORD: teamfinpass
+      POSTGRES_DB: team_finance
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teamfin -d team_finance -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      SESSION_COOKIE_SECURE: "false"
+      PORT: 5000
+      SESSION_SECRET: "devsecret"
+      DATABASE_URL: "postgres://teamfin:teamfinpass@db:5432/team_finance"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

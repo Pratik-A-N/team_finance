@@ -1,0 +1,8 @@
+{$DOMAIN} {
+  encode zstd gzip
+  log {
+    output file /var/log/caddy/access.log
+  }
+  tls {$EMAIL}
+  reverse_proxy /* http://app:5000
+}
