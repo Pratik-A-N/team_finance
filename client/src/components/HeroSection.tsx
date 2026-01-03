@@ -124,7 +124,7 @@ export default function HeroSection({ onGetStarted, onLearnMore }: HeroSectionPr
                 <p className="text-white/70 text-xs sm:text-sm mt-1">Happy Clients</p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">₹500Cr+</p>
+                <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">₹5Cr+</p>
                 <p className="text-white/70 text-xs sm:text-sm mt-1">Assets Managed</p>
               </div>
               <div>

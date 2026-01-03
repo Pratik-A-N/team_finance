@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./auth";
-import { updateUserProfileSchema, insertInvestmentSchema, updateInvestmentSchema } from "@shared/schema";
+import { updateUserProfileSchema, insertInvestmentSchema, updateInvestmentSchema, insertConsultationSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
@@ -143,6 +143,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error exporting investments:", error);
       res.status(500).json({ message: "Failed to export investments" });
+    }
+  });
+
+  // Create consultation request
+  app.post("/api/consultations", async (req: any, res) => {
+    try {
+      const userId = req.session?.userId || null;
+      const validatedData = insertConsultationSchema.parse({
+        ...req.body,
+        userId,
+      });
+      const consultation = await storage.createConsultation(validatedData);
+      res.status(201).json(consultation);
+    } catch (error: any) {
+      console.error("Error creating consultation:", error);
+      if (error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid consultation data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create consultation" });
+    }
+  });
+
+  // Get consultations for current user (if logged in)
+  app.get("/api/consultations", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const userConsultations = await storage.getConsultationsByUserId(userId);
+      res.json(userConsultations);
+    } catch (error) {
+      console.error("Error fetching consultations:", error);
+      res.status(500).json({ message: "Failed to fetch consultations" });
+    }
+  });
+
+  // Get all consultations (admin)
+  app.get("/api/admin/consultations", isAuthenticated, async (req: any, res) => {
+    try {
+      const allConsultations = await storage.getAllConsultations();
+      res.json(allConsultations);
+    } catch (error) {
+      console.error("Error fetching all consultations:", error);
+      res.status(500).json({ message: "Failed to fetch consultations" });
     }
   });
 

@@ -2,12 +2,15 @@ import {
   users,
   investments,
   passwordResetTokens,
+  consultations,
   type User,
   type UpsertUser,
   type UpdateUserProfile,
   type Investment,
   type InsertInvestment,
   type PasswordResetToken,
+  type Consultation,
+  type InsertConsultation,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and } from "drizzle-orm";
@@ -27,6 +30,9 @@ export interface IStorage {
   createPasswordResetToken(userId: string, token: string, expiresAt: Date): Promise<PasswordResetToken>;
   getPasswordResetToken(token: string): Promise<PasswordResetToken | undefined>;
   markTokenAsUsed(token: string): Promise<void>;
+  createConsultation(consultation: InsertConsultation): Promise<Consultation>;
+  getConsultationsByUserId(userId: string): Promise<Consultation[]>;
+  getAllConsultations(): Promise<Consultation[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -154,6 +160,26 @@ export class DatabaseStorage implements IStorage {
       .update(passwordResetTokens)
       .set({ used: "true" })
       .where(eq(passwordResetTokens.token, token));
+  }
+
+  async createConsultation(consultation: InsertConsultation): Promise<Consultation> {
+    const [created] = await db
+      .insert(consultations)
+      .values(consultation)
+      .returning();
+    return created;
+  }
+
+  async getConsultationsByUserId(userId: string): Promise<Consultation[]> {
+    const userConsultations = await db
+      .select()
+      .from(consultations)
+      // .where(eq(consultations.userId, userId));
+    return userConsultations;
+  }
+
+  async getAllConsultations(): Promise<Consultation[]> {
+    return await db.select().from(consultations);
   }
 }
 

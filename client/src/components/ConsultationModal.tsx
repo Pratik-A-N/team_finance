@@ -62,11 +62,29 @@ export default function ConsultationModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // todo: remove mock functionality - implement actual form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Form submitted:", formData);
-    setIsSubmitting(false);
-    setStep(3);
+    
+    try {
+      const response = await fetch("/api/consultations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Submission error:", errorData);
+        setIsSubmitting(false);
+        return;
+      }
+
+      const result = await response.json();
+      console.log("Consultation submitted:", result);
+      setIsSubmitting(false);
+      setStep(3); // Success screen
+    } catch (error) {
+      console.error("Failed to submit consultation:", error);
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {

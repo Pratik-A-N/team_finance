@@ -1,6 +1,8 @@
 services:
   db:
     image: postgres:15-alpine
+    env_file:
+      - .env.prod
     environment:
       POSTGRES_USER: teamfin
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -15,7 +17,9 @@ services:
     restart: unless-stopped
 
   app:
-    image: pratikan/team-finance:latest
+    build: .
+    env_file:
+      - .env.prod
     environment:
       NODE_ENV: production
       PORT: 5000
@@ -36,9 +40,23 @@ services:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+    environment:
+      - DOMAIN=${DOMAIN}
+      - EMAIL=${EMAIL}
+    env_file:
+      - .env.prod
     depends_on:
       - app
     restart: unless-stopped
+
+  adminer:
+    image: adminer
+    container_name: team-finance-adminer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - db
 
 volumes:
   pgdata:
